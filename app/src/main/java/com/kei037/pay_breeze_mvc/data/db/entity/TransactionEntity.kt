@@ -17,7 +17,7 @@ data class TransactionEntity (
     val amount:Double,
 
     @ColumnInfo(name = "transaction_date")
-    val transactionDate: Date,
+    val transactionDate: String,
 
     @ColumnInfo(name = "description")
     val description: String,

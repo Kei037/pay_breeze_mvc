@@ -16,4 +16,6 @@ interface TransactionDao {
 
     @Delete
     fun deleteTransaction(transaction: TransactionEntity)
+
+//    fun getTransFromDay(): List<TransactionEntity>
 }
