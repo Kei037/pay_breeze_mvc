@@ -6,55 +6,68 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.data.db.AppDatabase
+import com.kei037.pay_breeze_mvc.data.db.dao.CategoryDao
+import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
+import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
+import com.kei037.pay_breeze_mvc.databinding.FragmentSettingBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // viewBinding 초기화
+    private var _binding: FragmentSettingBinding? = null
+    private val binding get() = _binding!!
+    // DAO 초기화
+    private lateinit var categoryDao: CategoryDao
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    /**
+     * 처음 화면을 실행시 viewBinding 초기화
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false)
+        _binding = FragmentSettingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Room 데이터베이스 인스턴스 초기화
+        val db = AppDatabase.getInstance(requireContext())
+        categoryDao = db.getCategoryDao()
+
+        // 저장 버튼 클릭 리스너 설정
+        binding.saveBtn.setOnClickListener {
+            val inputText = binding.inputEditText.text.toString()
+            val newCategory = CategoryEntity(name = inputText, isPublic = true)
+
+            // 데이터베이스 작업은 백그라운드 스레드에서 수행
+            Thread {
+                categoryDao.insertCategory(newCategory)
+                // UI 업데이트는 메인 스레드에서 수행
+                requireActivity().runOnUiThread {
+                    binding.textView.text = "Saved: $inputText"
                 }
-            }
+            }.start()
+        }
+
+        // 데이터 가져오기 예제
+        binding.loadBtn.setOnClickListener {
+            Thread {
+                val categories = categoryDao.getAll()
+                requireActivity().runOnUiThread {
+                    binding.textView.text = categories.joinToString { it.name }
+                }
+            }.start()
+        }
+    }
+
+    /**
+     * 화면 전환시 viewBinding 해제
+     */
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

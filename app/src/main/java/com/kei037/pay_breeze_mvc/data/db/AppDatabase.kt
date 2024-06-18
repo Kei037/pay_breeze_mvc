@@ -11,22 +11,28 @@ import com.kei037.pay_breeze_mvc.data.db.dao.TransactionDao
 import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 
+@Database(entities = [TransactionEntity::class, CategoryEntity::class], version = 1)
 @TypeConverters(Converters::class)
-@Database(entities = arrayOf(TransactionEntity::class, CategoryEntity::class), version = 1)
-abstract class AppDatabase: RoomDatabase(){
+abstract class AppDatabase : RoomDatabase() {
     abstract fun getTransactionDao(): TransactionDao
     abstract fun getCategoryDao(): CategoryDao
 
     companion object {
-        val dataBaseName = "pay_breeze_db"
-        private var appDatabase : AppDatabase? = null
+        private const val DATABASE_NAME = "pay_breeze_db"
+        @Volatile
+        private var instance: AppDatabase? = null
 
-        fun getInstance(context: Context): AppDatabase? {
-            if (appDatabase == null) {
-                appDatabase = Room.databaseBuilder(context,
-                    AppDatabase::class.java, dataBaseName).build()
+        fun getInstance(context: Context): AppDatabase {
+            return instance ?: synchronized(this) {
+                val newInstance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    DATABASE_NAME
+                )
+                    .build()
+                instance = newInstance
+                newInstance
             }
-            return appDatabase
         }
     }
 }

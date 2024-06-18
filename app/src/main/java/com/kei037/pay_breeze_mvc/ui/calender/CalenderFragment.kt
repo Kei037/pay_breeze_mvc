@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import com.kei037.pay_breeze_mvc.data.db.dao.CategoryDao
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
+import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
 import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
 import com.kei037.pay_breeze_mvc.databinding.FragmentHomeBinding
 
 class CalenderFragment : Fragment() {
 
+    // viewBinding 초기화
     private var _binding: FragmentCalenderBinding? = null
     private val binding get() = _binding!!
 
@@ -31,11 +33,7 @@ class CalenderFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        // 뷰 바인딩을 사용하여 뷰 요소에 접근
-        binding.saveBtn.setOnClickListener {
-            val inputText = binding.inputEditText.text.toString()
-            binding.textView.text = inputText
-        }
+
     }
 
     /**
