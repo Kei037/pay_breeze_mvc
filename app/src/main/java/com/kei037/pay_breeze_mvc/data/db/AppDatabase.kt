@@ -5,11 +5,11 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import com.kei037.pay_breeze.data.db.converter.Converters
-import com.kei037.pay_breeze.data.db.dao.CategoryDao
-import com.kei037.pay_breeze.data.db.dao.TransactionDao
-import com.kei037.pay_breeze.data.db.entity.CategoryEntity
-import com.kei037.pay_breeze.data.db.entity.TransactionEntity
+import com.kei037.pay_breeze_mvc.data.db.converter.Converters
+import com.kei037.pay_breeze_mvc.data.db.dao.CategoryDao
+import com.kei037.pay_breeze_mvc.data.db.dao.TransactionDao
+import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
+import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 
 @TypeConverters(Converters::class)
 @Database(entities = arrayOf(TransactionEntity::class, CategoryEntity::class), version = 1)

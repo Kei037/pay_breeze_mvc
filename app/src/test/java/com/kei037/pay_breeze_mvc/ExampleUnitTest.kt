@@ -1,5 +1,8 @@
 package com.kei037.pay_breeze_mvc
 
+import com.kei037.pay_breeze_mvc.data.db.dao.CategoryDao
+import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
+import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -11,7 +14,7 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun testCode() {
+        println("4 + 4 == " + (4 + 4))
     }
 }

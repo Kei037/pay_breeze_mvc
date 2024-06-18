@@ -1,4 +1,4 @@
-package com.kei037.pay_breeze.data.db.entity
+package com.kei037.pay_breeze_mvc.data.db.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

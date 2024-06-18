@@ -1,10 +1,10 @@
-package com.kei037.pay_breeze.data.db.dao
+package com.kei037.pay_breeze_mvc.data.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.kei037.pay_breeze.data.db.entity.TransactionEntity
+import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 
 @Dao
 interface TransactionDao {
