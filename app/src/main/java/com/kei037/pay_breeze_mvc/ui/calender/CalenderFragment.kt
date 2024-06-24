@@ -13,6 +13,8 @@ import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
 import com.kei037.pay_breeze_mvc.ui.MiddleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.SingleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.StartEndDateDecorator
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.groupEventsByDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
@@ -24,10 +26,7 @@ import kotlinx.coroutines.withContext
 import org.threeten.bp.LocalDate
 import java.text.SimpleDateFormat
 import org.threeten.bp.ZoneId
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.LocalDateTime
 import java.util.Date
-import java.util.Locale
 
 
 class CalenderFragment : Fragment() {
@@ -37,10 +36,12 @@ class CalenderFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var adapter: EventAdapter
-    private lateinit var db: AppDatabase
     private lateinit var calendarView: MaterialCalendarView
     private var rangeStart: CalendarDay? = null
     private var rangeEnd: CalendarDay? = null
+
+    // db 초기화
+    private var db: AppDatabase? = null
 
     /**
      * 처음 화면을 실행시 viewBinding 초기화
@@ -72,21 +73,28 @@ class CalenderFragment : Fragment() {
 
         // 단일 날짜 선택
         calendarView.setOnDateChangedListener(OnDateSelectedListener { widget, date, selected ->
+            // 캘린더 색상 변경
             rangeStart = date
             rangeEnd = date
             updateDayDecorator()
+
             Log.i("선택 날짜 == ", date.toString())
             Log.i("선택 == ", selected.toString())
             Log.i("바뀐 날짜 == ", changeLocalDateToDate(date.date).toString())
+
+            // 리스트 업데이트
             loadEventsForDate(changeLocalDateToDate(date.date))
         })
 
         // 기간 날짜 선택
         calendarView.setOnRangeSelectedListener(OnRangeSelectedListener { widget, dates ->
+            // 캘린더 색상 변경
             rangeStart = dates.first()
             rangeEnd = dates.last()
             updateRangeDecorator()
+
             Log.i("날짜 == ", dates.toString())
+            // 리스트 업데이트
             loadEventsForRange(changeLocalDateToDate(dates.first().date), changeLocalDateToDate(dates.last().date))
         })
 
@@ -117,31 +125,36 @@ class CalenderFragment : Fragment() {
     }
 
 
-    // 날짜 설정시 가계부 출력
+    /**
+     * 날짜 설정시 가계부 출력
+     * @param dateString 날짜
+     */
     private fun loadEventsForDate(dateString: String) {
-        Log.i("loadEventsForDate 함수 실행", "성공")
         CoroutineScope(Dispatchers.IO).launch {
-            val transactions = db.getTransactionDao().getTransactionsByDate(dateString)
-            for (trans in transactions.indices) {
-                Log.i("받아온 가계부 리스트", trans.toString())
-
-            }
+            val transactions = db?.getTransactionDao()?.getTransactionsByDate(dateString)
+            val groupedItems = transactions?.let { groupEventsByDate(it) }
             withContext(Dispatchers.Main) {
-                adapter.updateEvents(transactions)
+                if (groupedItems != null) {
+                    adapter.updateEvents(groupedItems)
+                }
             }
         }
     }
 
-    // 기간 설정시 가계부 출력
+    /**
+     * 기간 설정시 가계부 출력
+     * @param startDate 시작 날짜
+     * @param endDate 끝 날짜
+     */
     private fun loadEventsForRange(startDate: String, endDate: String) {
-        Log.i("loadEventsForRange 함수 실행", "성공")
         CoroutineScope(Dispatchers.IO).launch {
-            val transactions = db.getTransactionDao().getTransactionsByDateRange(startDate, endDate)
-            for (trans in transactions.indices) {
-                Log.i("받아온 가계부 리스트", trans.toString())
-            }
+            val transactions =
+                db?.getTransactionDao()?.getTransactionsByDateRange(startDate, endDate)
+            val groupedItems = transactions?.let { groupEventsByDate(it) }
             withContext(Dispatchers.Main) {
-                adapter.updateEvents(transactions)
+                if (groupedItems != null) {
+                    adapter.updateEvents(groupedItems)
+                }
             }
         }
     }
@@ -187,7 +200,10 @@ class CalenderFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
 
+        // DB 정리
+        db?.close()
+        db = null
+    }
 
 }
