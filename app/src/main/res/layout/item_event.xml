@@ -9,42 +9,45 @@
         android:id="@+id/titleTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="Company Dinner Feast"
         android:textStyle="bold"
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/categoryTextView"
+        android:paddingEnd="8dp" />
 
     <TextView
         android:id="@+id/categoryTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="Food"
         android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView" />
+        app:layout_constraintEnd_toStartOf="@+id/amountTextView"
+        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        android:paddingEnd="8dp" />
 
     <TextView
         android:id="@+id/amountTextView"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="-19,500 ₩"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/categoryTextView" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-    <TextView
-        android:id="@+id/descriptionTextView"
+    <View
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/amountTextView" />
-
-    <TextView
-        android:id="@+id/dateTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/descriptionTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/categoryTextView"
+        android:layout_marginTop="8dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

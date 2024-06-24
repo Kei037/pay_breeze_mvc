@@ -14,8 +14,6 @@ class EventAdapter(private var events: List<TransactionEntity>): RecyclerView.Ad
         val titleTextView: TextView = view.findViewById(R.id.titleTextView)
         val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
         val amountTextView: TextView = view.findViewById(R.id.amountTextView)
-        val descriptionTextView: TextView = view.findViewById(R.id.descriptionTextView)
-        val dateTextView: TextView = view.findViewById(R.id.dateTextView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -28,8 +26,6 @@ class EventAdapter(private var events: List<TransactionEntity>): RecyclerView.Ad
         holder.titleTextView.text = event.title
         holder.categoryTextView.text = event.categoryName
         holder.amountTextView.text = event.amount.toString()
-        holder.descriptionTextView.text = event.description
-        holder.dateTextView.text = event.transactionDate.toString()
     }
 
     override fun getItemCount(): Int {
