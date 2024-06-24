@@ -1,14 +1,343 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/coordinatorLayout1"
     tools:context=".ui.home.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/htab_collapse_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:fitsSystemWindows="true"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
+
+            <!-- 스크롤시 나타나는 뷰 -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                app:layout_collapseMode="pin" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.3">
+                <!-- 헤더 -->
+                <LinearLayout
+                    android:id="@+id/headerLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- Logo -->
+                    <TextView
+                        android:id="@+id/logoView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="로고"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <!-- Name -->
+                    <TextView
+                        android:id="@+id/nameTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="홍길동 님"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <!-- ScrollView -->
+                <ScrollView
+                    android:id="@+id/scrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="252dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/home_scroll"
+                        android:elevation="8dp"
+                        android:orientation="vertical"
+                        android:paddingBottom="28dp">
+
+                        <TextView
+                            android:id="@+id/todaysAnalysis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:gravity="center"
+                            android:text="Analysis Of Today!"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/todaysMoney"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="9400"
+                                android:textColor="@color/black"
+                                android:textSize="72dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="8dp"
+                                android:text="₩"
+                                android:textSize="52dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="20dp"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Income"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="+5400"
+                                    android:textColor="@color/black"
+                                    android:textSize="24dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="Expenses"
+                                    android:textColor="@color/black" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="-9000"
+                                    android:textColor="@color/black"
+                                    android:textSize="24dp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </ScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/two_cl"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="80dp"
+                android:layout_gravity="bottom"
+                android:alpha="1">
+
+                <View
+                    android:id="@+id/firstView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+
+
+                <TextView
+                    android:id="@+id/totalCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="28dp"
+                    android:text="9000"
+                    android:textSize="32dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/totalWon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:text="₩"
+                    android:textSize="28dp"
+                    android:textColor="#8F8F8F"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/totalCount"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/mini_ex"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="8dp"
+                    android:text="13000"
+                    android:textSize="24dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/totalCount"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/mini_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:text="-4000"
+                    android:textSize="24dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/mini_ex"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+    <!-- 출/입금 내역 리스트 -->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Button Layout -->
+            <LinearLayout
+                android:id="@+id/buttonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/two_cl">
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipCornerRadius="6dp"
+                    app:chipEndPadding="0dp"
+                    app:chipIcon="@drawable/filter_icon"
+                    app:chipIconSize="28dp"
+                    app:chipIconVisible="true"
+                    app:chipStartPadding="0dp"
+                    app:chipStrokeColor="#BCBCBC"
+                    app:chipStrokeWidth="0.5dp"
+                    app:iconEndPadding="4dp"
+                    app:iconStartPadding="4dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:text="Cash"
+                    android:textColor="@color/white"
+                    app:chipBackgroundColor="#74ABFF"
+                    app:chipCornerRadius="6dp"
+                    app:closeIcon="@drawable/popupmenu_icon"
+                    app:closeIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:layout_weight="1"
+                    android:text="Date"
+                    android:textColor="@color/white"
+                    app:chipBackgroundColor="#74ABFF"
+                    app:chipCornerRadius="8dp"
+                    app:closeIcon="@drawable/popupmenu_icon"
+                    app:closeIconEnabled="true" />
+
+                <com.google.android.material.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Category"
+                    android:textColor="@color/white"
+                    android:layout_marginRight="24dp"
+                    app:chipBackgroundColor="#74ABFF"
+                    app:chipCornerRadius="6dp"
+                    app:closeIcon="@drawable/popupmenu_icon"
+                    app:closeIconEnabled="true" />
+            </LinearLayout>
+
+            <!-- RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

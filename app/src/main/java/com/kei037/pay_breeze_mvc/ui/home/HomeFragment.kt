@@ -1,60 +1,72 @@
 package com.kei037.pay_breeze_mvc.ui.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.appbar.AppBarLayout
 import com.kei037.pay_breeze_mvc.R
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HomeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var appBarLayout: AppBarLayout
+    private lateinit var twoCl: ConstraintLayout // 투명도가 조절될 ConstraintLayout
+    private lateinit var buttonLayout: LinearLayout
+    private lateinit var eventRecyclerView: RecyclerView
+    private lateinit var eventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        appBarLayout = view.findViewById(R.id.appBarLayout)
+        twoCl = view.findViewById(R.id.two_cl)
+        buttonLayout = view.findViewById(R.id.buttonLayout)
+        eventRecyclerView = view.findViewById(R.id.recyclerView)
+        return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // 투명도 조절 및 스크롤
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val alpha = Math.abs(verticalOffset).toFloat() / totalScrollRange.toFloat()
+            twoCl.alpha = alpha
+
+            // 투명도가 1일때 버튼레이웃의 marginTop 40으로 변경
+            val params = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+
+            if (alpha.toInt() == 1) {
+                params.setMargins(0, 36, 0, 0)
+                buttonLayout.layoutParams = params
             }
+
+            if (alpha.toInt() == 0) {
+                params.setMargins(0, 0, 0, 0)
+                buttonLayout.layoutParams = params
+            }
+
+        })
+
+        // 리사이클러뷰와 어댑터 설정
+        eventRecyclerView.layoutManager = LinearLayoutManager(context)
+        eventAdapter = EventAdapter(emptyList()) // 초기에는 빈 리스트로 설정
+        eventRecyclerView.adapter = eventAdapter
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
     }
 }
