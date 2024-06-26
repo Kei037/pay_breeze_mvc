@@ -21,10 +21,10 @@
             android:layout_height="wrap_content"
             android:src="@drawable/popupmenu_icon"/>
         <TextView
-            android:id="@+id/editBtn"
+            android:id="@+id/finishBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="edit"
+            android:text="Finish"
             android:textSize="20dp"
             android:gravity="right"
             android:layout_marginRight="12dp"
@@ -51,8 +51,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <TextView
-            android:id="@+id/titleText"
+        <EditText
+            android:id="@+id/editTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="titleArea"
@@ -82,8 +82,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <TextView
-            android:id="@+id/amountText"
+        <EditText
+            android:id="@+id/editAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="amountArea"
@@ -113,8 +113,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <TextView
-            android:id="@+id/dateText"
+        <EditText
+            android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="dateArea"
@@ -144,8 +144,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <TextView
-            android:id="@+id/categoryText"
+        <EditText
+            android:id="@+id/editCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CategoryArea"
@@ -175,8 +175,8 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <TextView
-            android:id="@+id/descriptionText"
+        <EditText
+            android:id="@+id/editDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="DescriptionArea"
