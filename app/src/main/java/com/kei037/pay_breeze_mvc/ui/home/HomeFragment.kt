@@ -24,6 +24,7 @@ class HomeFragment : Fragment() {
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var twoCl: ConstraintLayout
     private lateinit var buttonLayout: LinearLayout
+    // 바인딩
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: EventAdapter
