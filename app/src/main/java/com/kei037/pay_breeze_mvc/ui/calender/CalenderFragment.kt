@@ -13,7 +13,7 @@ import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
 import com.kei037.pay_breeze_mvc.ui.MiddleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.SingleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.StartEndDateDecorator
-import com.kei037.pay_breeze_mvc.ui.commons.EventAdapter
+import com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.groupEventsByDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
