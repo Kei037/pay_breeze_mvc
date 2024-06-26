@@ -30,7 +30,6 @@ import java.text.SimpleDateFormat
 import org.threeten.bp.ZoneId
 import java.util.Date
 
-
 class CalenderFragment : Fragment() {
 
     // viewBinding 초기화
@@ -110,7 +109,24 @@ class CalenderFragment : Fragment() {
 
         // 초기화 시 오늘 날짜 이벤트 로드
         loadEventsForDate(SimpleDateFormat("yyyy-MM-dd").format(Date()))
-        updateDayDecorator() // 초기 데코레이터 업데이트
+        updateDayDecorator()
+    }
+
+    // 화면이 다시 활성화될 때 데이터를 새로 고침
+    override fun onResume() {
+        super.onResume()
+        // 화면이 다시 활성화될 때 데이터를 새로 고침
+        if (rangeStart != null && rangeEnd != null) {
+            if (rangeStart == rangeEnd) {
+                // 단일 날짜 선택
+                loadEventsForDate(changeLocalDateToDate(rangeStart!!.date))
+                updateDayDecorator()
+            } else {
+                // 기간 날짜 선택
+                loadEventsForRange(changeLocalDateToDate(rangeStart!!.date), changeLocalDateToDate(rangeEnd!!.date))
+                updateRangeDecorator()
+            }
+        }
     }
 
     /**
