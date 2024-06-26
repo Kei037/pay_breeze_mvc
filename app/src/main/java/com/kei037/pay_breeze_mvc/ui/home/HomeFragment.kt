@@ -7,41 +7,57 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
-import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.data.db.AppDatabase
+import com.kei037.pay_breeze_mvc.databinding.FragmentHomeBinding
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
+import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class HomeFragment : Fragment() {
 
     private lateinit var appBarLayout: AppBarLayout
-    private lateinit var twoCl: ConstraintLayout // 투명도가 조절될 ConstraintLayout
+    private lateinit var twoCl: ConstraintLayout
     private lateinit var buttonLayout: LinearLayout
-    private lateinit var eventRecyclerView: RecyclerView
-    private lateinit var eventAdapter: EventAdapter
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var adapter: EventAdapter
+    private var db: AppDatabase? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-        appBarLayout = view.findViewById(R.id.appBarLayout)
-        twoCl = view.findViewById(R.id.two_cl)
-        buttonLayout = view.findViewById(R.id.buttonLayout)
-        eventRecyclerView = view.findViewById(R.id.recyclerView)
-        return view
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 투명도 조절 및 스크롤
+        appBarLayout = binding.appBarLayout
+        twoCl = binding.twoCl
+        buttonLayout = binding.buttonLayout
+
+        val eventRecyclerView: RecyclerView = binding.recyclerView
+        eventRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        adapter = EventAdapter(emptyList(), requireContext())
+        eventRecyclerView.adapter = adapter
+
+        db = AppDatabase.getInstance(requireContext())
+
+        loadTransactionsFromDatabase()
+
         appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
             val alpha = Math.abs(verticalOffset).toFloat() / totalScrollRange.toFloat()
             twoCl.alpha = alpha
 
-            // 투명도가 1일때 버튼레이웃의 marginTop 40으로 변경
             val params = LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
@@ -56,17 +72,34 @@ class HomeFragment : Fragment() {
                 params.setMargins(0, 0, 0, 0)
                 buttonLayout.layoutParams = params
             }
-
         })
+    }
 
-        // 리사이클러뷰와 어댑터 설정
-        eventRecyclerView.layoutManager = LinearLayoutManager(context)
-        eventAdapter = EventAdapter(emptyList()) // 초기에는 빈 리스트로 설정
-        eventRecyclerView.adapter = eventAdapter
+    private fun loadTransactionsFromDatabase() {
+        lifecycleScope.launch {
+            try {
+                val transactionEntities = withContext(Dispatchers.IO) {
+                    db?.getTransactionDao()?.getAll() ?: emptyList()
+                }
 
+                val eventItems = transactionEntities.map { transaction ->
+                    HomeItem(
+                        title = transaction.title,
+                        categoryName = transaction.categoryName,
+                        amount = transaction.amount,
+                        transaction
+                    )
+                }
+
+                adapter.updateEvents(eventItems)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        _binding = null
     }
 }

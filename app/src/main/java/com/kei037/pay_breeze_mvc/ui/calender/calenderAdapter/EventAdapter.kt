@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.ui.commons.DetailedActivity
+import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 
 // RecyclerView의 어댑터 클래스 정의, 여러 종류의 뷰 타입을 처리
 class EventAdapter(private var items: List<ListItem>, private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -27,6 +28,12 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
         val dateTextView: TextView = view.findViewById(R.id.dateTextView)
     }
 
+    class HomeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val titleTextView: TextView = view.findViewById(R.id.titleTextView)
+        val categoryTextView: TextView = view.findViewById(R.id.categoryTextView)
+        val amountTextView: TextView = view.findViewById(R.id.amountTextView)
+    }
+
     // ViewHolder를 생성하는 함수
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -40,6 +47,11 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
                 EventViewHolder(view)
             }
+            ViewType.HOME_ITEM.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
+                HomeViewHolder(view)
+            }
+
             // 그 외의 경우 예외 처리
             else -> throw IllegalArgumentException("Invalid view type")
         }
@@ -65,6 +77,20 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                 holder.itemView.setOnClickListener {
                     val intent = Intent(context, DetailedActivity::class.java).apply {
                         putExtra("EVENT_DETAIL", eventItem.transaction.toString())
+                    }
+                    context.startActivity(intent)
+                }
+            }
+            is HomeViewHolder -> {
+                val homeItem = item as HomeItem
+                holder.titleTextView.text = homeItem.title
+                holder.categoryTextView.text = homeItem.categoryName
+                holder.amountTextView.text = homeItem.amount.toString()
+
+                // 아이템 클릭 이벤트 처리
+                holder.itemView.setOnClickListener {
+                    val intent = Intent(context, DetailedActivity::class.java).apply {
+                        putExtra("Event_detail", homeItem.transaction.toString())
                     }
                     context.startActivity(intent)
                 }
