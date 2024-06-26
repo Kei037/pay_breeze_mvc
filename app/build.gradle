@@ -37,6 +37,8 @@ android {
 }
 
 dependencies {// room 관련 설정 추가
+    implementation libs.androidx.recyclerview
+
     def room_version = "2.5.0"
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"

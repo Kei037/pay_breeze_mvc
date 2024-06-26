@@ -24,4 +24,11 @@
         <item name="android:layout_height">wrap_content</item>
         <!-- 필요에 따라 다른 속성도 설정 가능 -->
     </style>
+    <style name="Theme.Pay_breeze_mvc.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.Pay_breeze_mvc.AppBarOverlay"
+        parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Pay_breeze_mvc.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

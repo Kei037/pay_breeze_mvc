@@ -1,14 +1,17 @@
 package com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.ui.commons.DetailedActivity
 
 // RecyclerView의 어댑터 클래스 정의, 여러 종류의 뷰 타입을 처리
-class EventAdapter(private var items: List<ListItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class EventAdapter(private var items: List<ListItem>, private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // 이벤트 아이템에 대한 ViewHolder 클래스 정의
     class EventViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -57,6 +60,14 @@ class EventAdapter(private var items: List<ListItem>) : RecyclerView.Adapter<Rec
                 holder.titleTextView.text = eventItem.transaction.title
                 holder.categoryTextView.text = eventItem.transaction.categoryName
                 holder.amountTextView.text = eventItem.transaction.amount.toString()
+
+                // 아이템 클릭 이벤트 처리
+                holder.itemView.setOnClickListener {
+                    val intent = Intent(context, DetailedActivity::class.java).apply {
+                        putExtra("EVENT_DETAIL", eventItem.transaction.toString())
+                    }
+                    context.startActivity(intent)
+                }
             }
         }
     }
