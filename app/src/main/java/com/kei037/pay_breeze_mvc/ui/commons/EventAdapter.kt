@@ -1,4 +1,4 @@
-package com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter
+package com.kei037.pay_breeze_mvc.ui.commons
 
 import android.content.Context
 import android.content.Intent
@@ -8,7 +8,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kei037.pay_breeze_mvc.R
-import com.kei037.pay_breeze_mvc.ui.commons.DetailedActivity
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.DateItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ListItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ViewType
 import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 
 // RecyclerView의 어댑터 클래스 정의, 여러 종류의 뷰 타입을 처리

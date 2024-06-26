@@ -25,7 +25,7 @@ class DetailedActivity : AppCompatActivity() {
 
         // ActivityResultLauncher 초기화
         editActivityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            // EditActivity에서 돌아온 결과를 처리
+            // EditActivity에서 업데이트된 결과를 처리
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
                 val updatedTransactionString = data?.getStringExtra("updatedTransaction")
@@ -53,7 +53,7 @@ class DetailedActivity : AppCompatActivity() {
             }
         }
 
-        // 돌아가기 버튼 클릭 리스너
+        // 뒤로가기 버튼
         binding.backBtn.setOnClickListener {
             finish()
         }

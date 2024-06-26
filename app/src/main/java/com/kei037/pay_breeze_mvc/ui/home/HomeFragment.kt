@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.databinding.FragmentHomeBinding
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
+import com.kei037.pay_breeze_mvc.ui.commons.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

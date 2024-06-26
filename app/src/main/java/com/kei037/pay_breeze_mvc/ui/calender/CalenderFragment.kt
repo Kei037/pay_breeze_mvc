@@ -1,6 +1,5 @@
 package com.kei037.pay_breeze_mvc.ui.calender
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,8 +13,7 @@ import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
 import com.kei037.pay_breeze_mvc.ui.MiddleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.SingleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.StartEndDateDecorator
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventItem
+import com.kei037.pay_breeze_mvc.ui.commons.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.groupEventsByDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -38,6 +36,8 @@ class CalenderFragment : Fragment() {
 
     private lateinit var adapter: EventAdapter
     private lateinit var calendarView: MaterialCalendarView
+
+    // 날짜 선택시 임시 변수
     private var rangeStart: CalendarDay? = null
     private var rangeEnd: CalendarDay? = null
 
