@@ -1,5 +1,6 @@
 package com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -82,7 +83,13 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                     val intent = Intent(context, DetailedActivity::class.java).apply {
                         putExtra("EVENT_DETAIL", eventItem.transaction.toString())
                     }
-                    context.startActivity(intent)
+                    // Context를 Activity로 캐스팅하여 애니메이션 적용
+                    if (context is Activity) {
+                        context.startActivity(intent)
+                        context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    } else {
+                        context.startActivity(intent)
+                    }
                 }
             }
             is HomeViewHolder -> {
@@ -96,7 +103,13 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                     val intent = Intent(context, DetailedActivity::class.java).apply {
                         putExtra("Event_detail", homeItem.transaction.toString())
                     }
-                    context.startActivity(intent)
+                    // Context를 Activity로 캐스팅하여 애니메이션 적용
+                    if (context is Activity) {
+                        context.startActivity(intent)
+                        context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    } else {
+                        context.startActivity(intent)
+                    }
                 }
             }
         }

@@ -1,10 +1,12 @@
 package com.kei037.pay_breeze_mvc.ui.commons
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 import com.kei037.pay_breeze_mvc.databinding.ActivityEditBinding
@@ -33,6 +35,7 @@ class EditActivity : AppCompatActivity() {
         // 뒤로가기 버튼
         binding.backBtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         // 상세화면에서 넘어온 값을 수정화면에 뿌려줌
@@ -52,8 +55,12 @@ class EditActivity : AppCompatActivity() {
             binding.editCategory.setText(categoryName)
         }
 
+        // 언더라인
+        val finishBtn = binding.finishBtn
+        finishBtn.paintFlags = finishBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
         // 수정된 값들을 저장
-        binding.finishBtn.setOnClickListener {
+        finishBtn.setOnClickListener {
             val editTitle = binding.editTitle.text.toString()
             val editAmount = binding.editAmount.text.toString().toDoubleOrNull() ?: 0.0
             val editDate = binding.editDate.text.toString()
@@ -78,9 +85,15 @@ class EditActivity : AppCompatActivity() {
                 setResult(RESULT_OK, resultIntent)
                 launch(Dispatchers.Main) {
                     finish()
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
                 }
             }
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 
     override fun onDestroy() {

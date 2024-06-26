@@ -8,6 +8,7 @@ import com.kei037.pay_breeze_mvc.databinding.ActivityDetailedBinding
 import android.graphics.Paint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 
 class DetailedActivity : AppCompatActivity() {
@@ -56,6 +57,7 @@ class DetailedActivity : AppCompatActivity() {
         // 뒤로가기 버튼
         binding.backBtn.setOnClickListener {
             finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
         }
 
         // 전달된 이벤트 세부 정보 받기
@@ -99,6 +101,12 @@ class DetailedActivity : AppCompatActivity() {
             }
             // EditActivity 시작
             editActivityResultLauncher.launch(intent)
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
     }
 }
