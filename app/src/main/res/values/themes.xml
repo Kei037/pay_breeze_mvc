@@ -31,4 +31,25 @@
     <style name="Theme.Pay_breeze_mvc.AppBarOverlay"
         parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="Theme.Pay_breeze_mvc.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!-- CustomChip theme -->
+    <style name="CustomChip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipIconVisible">false</item>
+        <item name="checkedIconVisible">true</item>
+        <item name="chipBackgroundColor">#F8F8F8</item>
+        <item name="chipStrokeColor">#E8E8E8</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">16dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <!-- BottomSheetDialogTheme -->
+    <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
+
+    <!-- CustomBottomSheetStyle -->
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_register_bottom_sheet</item>
+    </style>
 </resources>
