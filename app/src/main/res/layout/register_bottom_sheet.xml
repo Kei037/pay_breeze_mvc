@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_register_bottom_sheet"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:focusable="true"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior" >
+
+    <!-- BottomSheet Drag Handle -->
+    <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+        android:id="@+id/drag_handle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <!-- Add Transaction Form -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Title"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/title_icon" />
+
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:hint="직접 입력"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Amount"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/amount_icon" />
+
+            <!-- android:id="@id/et_amount" -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/et_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="직접 입력"
+                    android:inputType="numberDecimal"
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Income" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chip_expense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Expense" />
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+
+            <!-- Date Picker (Material 3 docked date picker -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Date"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/datepicker_icon" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/date_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:clickable="true"
+                android:focusable="false"
+                android:hint="Select Date"
+                android:onClick="showDatePicker"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray" />
+
+            <!-- Category chips-->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Category"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/category_icon" />
+
+            <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="6dp"
+                android:layout_marginEnd="16dp"
+                android:text="edit"
+                android:layout_gravity="end"
+                android:onClick="onEditClick" />
+
+            <!-- Category ChipGroup-->
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chip_group_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                app:singleSelection="true">
+
+                <!-- Category Chips -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_food"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Food"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_fuel"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fuel"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_shopping"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Shopping"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_mobile_plan"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mobile Plan"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_rent"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rent"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_investment"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Investment"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_salary"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Salary"
+                    android:textSize="14sp"
+                    app:chipBackgroundColor="#F8F8F8"
+                    app:chipCornerRadius="16dp"
+                    app:chipIcon="@drawable/checked_chip_icon"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="32dp"
+                    app:chipStrokeColor="#E8E8E8"
+                    app:chipStrokeWidth="1dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="8dp"
+                    app:textStartPadding="8dp"
+                    android:textColor="@android:color/black" />
+            </com.google.android.material.chip.ChipGroup>
+
+            <LinearLayout
+                android:id="@+id/button_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/category_create_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:breakStrategy="high_quality"
+                android:text="Create New"
+                android:textSize="14sp"
+                app:chipBackgroundColor="#F8F8F8"
+                app:chipCornerRadius="16dp"
+                app:chipIcon="@drawable/create_new_category_icon"
+                app:chipIconVisible="true"
+                app:chipMinHeight="32dp"
+                app:chipStrokeColor="#E8E8E8"
+                app:chipStrokeWidth="1dp"
+                app:iconStartPadding="8dp"
+                app:textEndPadding="8dp"
+                app:textStartPadding="8dp"
+                android:textColor="@android:color/black"
+                android:onClick="onCreateNewChipClick" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/categoryCancel"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Description"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                android:drawablePadding="8dp"
+                android:gravity="center_vertical"
+                app:drawableStartCompat="@drawable/description_icon"
+                />
+
+            <EditText
+                android:id="@+id/et_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:hint="직접 입력"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#ff000000"
+                android:text="Create"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
