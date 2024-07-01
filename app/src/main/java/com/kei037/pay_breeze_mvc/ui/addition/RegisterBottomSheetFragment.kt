@@ -126,6 +126,8 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
 
     /**
      * 多 listener 설정
+     * TODO :: 중복되는 category 추가 불가능 로직 추가 필요
+     *
      */
     private fun setupListeners() {
         // category chip 그룹의 선택 상태가 변경될 때 호출 되는 리스너 설정
@@ -238,10 +240,12 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
          * category 를 database 에 저장하는 작업을 background 에서 수행
          * @param params : 작업에 사용되지 않는 parameter
          * @return Boolean : 저장 성공 여부
+         *
+         * TODO :: 추가할 때 true -> false 로 변경 (관련 로직 수정)ㅂㅈㄷ
          */
         override fun doInBackground(vararg params: Void?): Boolean {
             return try {
-                val newCategory = CategoryEntity(name = categoryName, isPublic = true)
+                val newCategory = CategoryEntity(name = categoryName, isPublic = true) //
                 repository.insertCategory(newCategory)
                 Log.d("BottomSheet", "Category saved to DB: $categoryName")
                 true
@@ -348,42 +352,67 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
 
     /**
      * 날짜 dialog 표시
+     * Date Picker 표시 및 선택된 날짜를 yyyy-MM-dd 형식 문자열로 formatting 후 UI에 설정 후 로그에 출력
+     *
+     * TODO :: bottom sheet 로 부터 처음 UI 표시될 때 오늘 날짜 기본값 설정 필요
+     *      :: material 3 docked date picker UI 적용 필요
      */
     private fun showDatePicker() {
         val datePicker = MaterialDatePicker.Builder.datePicker().build()
         datePicker.show(parentFragmentManager, "date_picker")
         datePicker.addOnPositiveButtonClickListener {
+            // SimpleDateFormat 를 통해 선택된 날짜를 yyyy-MM-dd 형식의 문자열로 formatting
             val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             selectedDate = Date(it)
-            binding.dateInput.setText(sdf.format(selectedDate!!))
-            Log.d("BottomSheet", "Selected date: ${sdf.format(selectedDate!!)}")
+            val formattedDate = sdf.format(selectedDate!!)
+            // formatting 된 날짜를 dateInput 필드에 설정
+            binding.dateInput.setText(formattedDate)
+            // Log 에 선택된 날짜 출력
+            Log.d("BottomSheet", "Selected date: $formattedDate")
         }
     }
 
     /**
      * 새 transaction 추가
+     *
+     * 입력된 데이터 사용하여 TransactionEntity 객체 생성
+     * onAddListener 를 통해 전달
+     * 날짜를 yyyy-MM-dd 형식의 문자열로 formatting 후 로그 출력
      */
     private fun addAddition() {
+        // 입력된 제목, 금액 및 설명 가져오기
         val title = binding.etTitle.text.toString()
         val amountText = binding.etAmount.text.toString()
         val amount = amountText.toDoubleOrNull()
         val description = binding.etDescription.text.toString()
 
+        // 필수 필드 비어있는지 확인
         if (title.isEmpty() || amount == null || description.isEmpty() || selectedDate == null) {
             Toast.makeText(context, "모든 필드를 입력해주세요", Toast.LENGTH_SHORT).show()
             return
         }
 
+        // 날짜를 yyyy-MM-dd 형식의 문자열로 formatting
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val formattedDate = sdf.format(selectedDate!!)
+        // 로그에 포맷팅된 날짜 출력
+        Log.d("AdditionFragment", "Formatted date to be saved: $formattedDate")
+
+        // TransactionEntity 객체 생성
         val addition = TransactionEntity(
             title = title,
             amount = if (isExpense) {
                 -amount
             } else amount,
-            transactionDate = selectedDate!!.toString(),
+            transactionDate = formattedDate,
             description = description,
             categoryName = selectedCategory,
         )
 
+        // 로그에 생성된 transaction 출력
+        Log.d("AdditionFragment", "Transaction to be added: $addition")
+
+        // onAddListener 를 통해 transaction 전달
         onAddListener?.invoke(addition)
         clearForm()
         dismiss()
