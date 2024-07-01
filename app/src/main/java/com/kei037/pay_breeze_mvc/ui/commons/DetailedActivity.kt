@@ -31,25 +31,7 @@ class DetailedActivity : AppCompatActivity() {
                 val data = result.data
                 val updatedTransactionString = data?.getStringExtra("updatedTransaction")
                 updatedTransactionString?.let {
-                    // 수정된 트랜잭션 문자열을 파싱하여 각 필드 추출
-                    val cleanedString = it.removePrefix("TransactionEntity(").removeSuffix(")")
-                    val parts = cleanedString.split(", ").associate {
-                        val (key, value) = it.split("=")
-                        key to value
-                    }
-
-                    // 파싱된 데이터를 UI에 반영
-                    val title = parts["title"]
-                    val amount = parts["amount"]
-                    val transactionDate = parts["transactionDate"]
-                    val description = parts["description"]
-                    val categoryName = parts["categoryName"]
-
-                    binding.titleText.text = title
-                    binding.amountText.text = amount
-                    binding.dateText.text = transactionDate
-                    binding.descriptionText.text = description
-                    binding.categoryText.text = categoryName
+                    updateUIWithTransactionString(it)
                 }
             }
         }
@@ -65,26 +47,9 @@ class DetailedActivity : AppCompatActivity() {
         Log.i("불러온 이벤트", transactionEntityString.toString())
 
         // 전달된 문자열을 클리닝하고 파싱하여 각 필드 추출
-        val cleanedString = transactionEntityString?.removePrefix("TransactionEntity(")?.removeSuffix(")")
-        val parts = cleanedString?.split(", ")?.associate {
-            val (key, value) = it.split("=")
-            key to value
+        transactionEntityString?.let {
+            updateUIWithTransactionString(it)
         }
-
-        // 파싱된 데이터를 각 변수에 할당
-        val id = parts?.get("id")
-        val title = parts?.get("title")
-        val amount = parts?.get("amount")
-        val transactionDate = parts?.get("transactionDate")
-        val description = parts?.get("description")
-        val categoryName = parts?.get("categoryName")
-
-        // UI에 초기 데이터 설정
-        binding.titleText.text = title
-        binding.amountText.text = amount
-        binding.dateText.text = transactionDate
-        binding.descriptionText.text = description
-        binding.categoryText.text = categoryName
 
         // editBtn에 밑줄 설정 및 클릭 리스너 추가
         val editBtn = binding.editBtn
@@ -92,17 +57,42 @@ class DetailedActivity : AppCompatActivity() {
         editBtn.setOnClickListener {
             // EditActivity로 이동하는 Intent 생성
             val intent = Intent(this, EditActivity::class.java).apply {
-                putExtra("id", id)
-                putExtra("title", title)
-                putExtra("amount", amount)
-                putExtra("transactionDate", transactionDate)
-                putExtra("description", description)
-                putExtra("categoryName", categoryName)
+                putExtra("id", binding.titleText.tag as? String)
+                putExtra("title", binding.titleText.text.toString())
+                putExtra("amount", binding.amountText.text.toString())
+                putExtra("transactionDate", binding.dateText.text.toString())
+                putExtra("description", binding.descriptionText.text.toString())
+                putExtra("categoryName", binding.categoryText.text.toString())
             }
             // EditActivity 시작
             editActivityResultLauncher.launch(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+    }
+
+    private fun updateUIWithTransactionString(transactionEntityString: String) {
+        // 전달된 문자열을 클리닝하고 파싱하여 각 필드 추출
+        val cleanedString = transactionEntityString.removePrefix("TransactionEntity(").removeSuffix(")")
+        val parts = cleanedString.split(", ").associate {
+            val (key, value) = it.split("=")
+            key to value
+        }
+
+        // 파싱된 데이터를 각 변수에 할당
+        val id = parts["id"]
+        val title = parts["title"]
+        val amount = parts["amount"]
+        val transactionDate = parts["transactionDate"]
+        val description = parts["description"]
+        val categoryName = parts["categoryName"]
+
+        // UI에 초기 데이터 설정
+        binding.titleText.tag = id
+        binding.titleText.text = title
+        binding.amountText.text = amount
+        binding.dateText.text = transactionDate
+        binding.descriptionText.text = description
+        binding.categoryText.text = categoryName
     }
 
     override fun finish() {

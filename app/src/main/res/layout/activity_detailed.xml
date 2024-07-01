@@ -28,7 +28,7 @@
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="edit"
+            android:text="수정"
             android:textSize="20dp"
             android:layout_marginRight="12dp"
             app:layout_constraintTop_toTopOf="parent"

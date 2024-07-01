@@ -101,7 +101,7 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                 // 아이템 클릭 이벤트 처리
                 holder.itemView.setOnClickListener {
                     val intent = Intent(context, DetailedActivity::class.java).apply {
-                        putExtra("Event_detail", homeItem.transaction.toString())
+                        putExtra("EVENT_DETAIL", homeItem.transaction.toString())
                     }
                     // Context를 Activity로 캐스팅하여 애니메이션 적용
                     if (context is Activity) {

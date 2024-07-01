@@ -1,17 +1,22 @@
 package com.kei037.pay_breeze_mvc.ui.commons
 
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 import com.kei037.pay_breeze_mvc.databinding.ActivityEditBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class EditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditBinding
@@ -26,6 +31,8 @@ class EditActivity : AppCompatActivity() {
 
     // DB 초기화
     private var db: AppDatabase? = null
+
+    private var isExpense: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,10 +66,31 @@ class EditActivity : AppCompatActivity() {
         val finishBtn = binding.finishBtn
         finishBtn.paintFlags = finishBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
+        // datePicker 생성
+        binding.editDate.setOnClickListener {
+            showDatePicker()
+        }
+
+        /**
+         * 카테고리 변경화면으로 Intent
+         */
+        binding.editCategory.setOnClickListener {
+            val intent = Intent(this, EditCategoryActivity::class.java).apply {
+                putExtra("id", id)
+                putExtra("categoryName", categoryName)
+            }
+            startActivityForResult(intent, REQUEST_CODE_CATEGORY)
+        }
+
         // 수정된 값들을 저장
         finishBtn.setOnClickListener {
             val editTitle = binding.editTitle.text.toString()
-            val editAmount = binding.editAmount.text.toString().toDoubleOrNull() ?: 0.0
+            var editAmount = binding.editAmount.text.toString().toDoubleOrNull() ?: 0.0
+
+            if (!isExpense) {
+                editAmount = -editAmount
+            }
+
             val editDate = binding.editDate.text.toString()
             val editDescription = binding.editDescription.text.toString()
             val editCategory = binding.editCategory.text.toString()
@@ -89,6 +117,80 @@ class EditActivity : AppCompatActivity() {
                 }
             }
         }
+
+        // 수입 / 지출 버튼 클릭시 색상 변경 및 음수 변경
+        binding.chipIncome.setOnClickListener {
+            selectChip(true)
+        }
+
+        binding.chipExpense.setOnClickListener {
+            selectChip(false)
+        }
+    }
+
+    // DataPicker 생성
+    private fun showDatePicker() {
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("날짜 선택")
+            .build()
+        datePicker.show(supportFragmentManager, "datePicker")
+
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            // 선택된 날짜를 Long 형식으로 가져옴
+            val selectedDateMillis = selection ?: return@addOnPositiveButtonClickListener
+
+            // 날짜 형식을 원하는 포맷으로 변환
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            val formattedDate = dateFormat.format(Date(selectedDateMillis))
+
+            // 변환된 날짜를 TextView에 설정
+            binding.editDate.text = formattedDate
+        }
+    }
+
+    // chip 선택시 색상변경
+    private fun selectChip(isIncome: Boolean) {
+        val chipIncome = binding.chipIncome
+        val chipExpense = binding.chipExpense
+
+        if (isIncome) {
+            chipIncome.apply {
+                isChecked = true
+                setChipBackgroundColorResource(R.color.black)
+                setTextColor(Color.WHITE)
+            }
+            chipExpense.apply {
+                isChecked = false
+                setChipBackgroundColorResource(R.color.gray)
+                setTextColor(Color.BLACK)
+            }
+            isExpense = true
+        } else {
+            chipExpense.apply {
+                isChecked = true
+                setChipBackgroundColorResource(R.color.black)
+                setTextColor(Color.WHITE)
+            }
+            chipIncome.apply {
+                isChecked = false
+                setChipBackgroundColorResource(R.color.gray)
+                setTextColor(Color.BLACK)
+            }
+            isExpense = false
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_CATEGORY && resultCode == RESULT_OK) {
+            val selectedCategory = data?.getStringExtra("selectedCategory")
+            binding.editCategory.text = selectedCategory
+            categoryName = selectedCategory
+        }
+    }
+
+    companion object {
+        private const val REQUEST_CODE_CATEGORY = 1
     }
 
     override fun finish() {

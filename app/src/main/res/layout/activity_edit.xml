@@ -28,7 +28,7 @@
             android:id="@+id/finishBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Finish"
+            android:text="수정완료"
             android:textSize="20dp"
             android:layout_marginRight="12dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -69,6 +69,7 @@
             android:layout_marginTop="8dp" />
     </LinearLayout>
 
+    <!-- amount area -->
     <LinearLayout
         android:id="@+id/amountLinear"
         android:layout_width="match_parent"
@@ -87,12 +88,58 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <EditText
-            android:id="@+id/editAmount"
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="amountArea"
-            android:textSize="20dp"/>
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <EditText
+                    android:id="@+id/editAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="amountArea"
+                    android:textSize="20dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:singleSelection="true">
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStartPadding="14dp"
+                        app:chipEndPadding="14dp"
+                        app:chipMinHeight="36dp"
+                        android:text="수입"
+                        android:textSize="16dp"/>
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:chipStartPadding="14dp"
+                        app:chipEndPadding="14dp"
+                        app:chipMinHeight="36dp"
+                        android:text="지출"
+                        android:textSize="16dp"/>
+                </com.google.android.material.chip.ChipGroup>
+            </LinearLayout>
+        </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -118,7 +165,7 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <EditText
+        <TextView
             android:id="@+id/editDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -149,7 +196,7 @@
             android:textColor="#000000"
             android:textStyle="bold"
             android:layout_marginBottom="6dp"/>
-        <EditText
+        <TextView
             android:id="@+id/editCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
