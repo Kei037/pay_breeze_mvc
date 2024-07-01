@@ -28,7 +28,7 @@ class CustomChip(context: Context?) : LinearLayout(context) {
         chip.text = ""
         chip.isClickable = false
         chip.isFocusable = false
-        chip.chipIcon = context?.getDrawable(R.drawable.checked_chip_icon)
+//        chip.chipIcon = context?.getDrawable(R.drawable.checked_chip_icon)
         chip.setChipBackgroundColorResource(android.R.color.transparent)
 
         // EditText 설정

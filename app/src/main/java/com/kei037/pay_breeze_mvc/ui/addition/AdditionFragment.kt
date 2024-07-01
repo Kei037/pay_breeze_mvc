@@ -1,5 +1,6 @@
 package com.kei037.pay_breeze_mvc.ui.addition
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,21 +14,17 @@ import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 import com.kei037.pay_breeze_mvc.databinding.FragmentAdditionBinding
 
 /**
- * 트랜잭션 추가 및 관리를 위한 프래그먼트 클래스.
+ * 트랜잭션 추가 및 관리를 위한 프래그먼트 클래스
  */
 class AdditionFragment : Fragment() {
-    // 프래그먼트 레이아웃 바인딩
     private var _binding: FragmentAdditionBinding? = null
     private val binding get() = _binding!!
-    // 트랜잭션 데이터 접근을 위한 리포지토리
     private lateinit var repository: AdditionRepository
-    // 저장 전 임시로 트랜잭션을 저장할 리스트
     private val tempTransactionList = mutableListOf<TransactionEntity>()
-    // RecyclerView 에 트랜잭션을 표시하기 위한 어댑터
     private lateinit var additionAdapter: AdditionAdapter
 
     /**
-     * 프래그먼트의 뷰를 생성할 때 호출
+     * 프래그먼트의 뷰를 생성할 때 호출됨
      */
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,7 +37,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 뷰가 생성된 후 호출
+     * 뷰가 생성된 후 호출됨
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,7 +47,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 트랜잭션을 표시할 RecyclerView 를 설정
+     * 리사이클러뷰를 설정
      */
     private fun setupRecyclerView() {
         additionAdapter = AdditionAdapter { transaction ->
@@ -67,7 +64,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * UI 요소에 대한 리스너들을 설정
+     * 리스너들을 설정
      */
     private fun setupListeners() {
         binding.fabOpenBottomSheet.setOnClickListener {
@@ -87,7 +84,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 임시 리스트에 있는 모든 트랜잭션을 데이터베이스에 저장
+     * 모든 트랜잭션을 저장
      */
     private fun saveAllTransactions() {
         Thread {
@@ -108,7 +105,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 임시 트랜잭션 리스트 비움
+     * 임시 트랜잭션 리스트를 비움
      */
     private fun clearTempTranscationList() {
         tempTransactionList.clear()
@@ -116,7 +113,7 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 데이터베이스에서 모든 트랜잭션 로드 후 RecyclerView 에 표시
+     * 모든 트랜잭션을 로드
      */
     private fun loadAllTransactions() {
         Thread {
@@ -134,14 +131,14 @@ class AdditionFragment : Fragment() {
     }
 
     /**
-     * 임시 트랜잭션 리스트의 상태에 따라 완료 버튼의 가시성 업데이트
+     * 완료 버튼 표시 여부를 업데이트
      */
     private fun updateFinishButtonVisibility() {
         binding.btnFinish.isVisible = tempTransactionList.isNotEmpty() || additionAdapter.itemCount > 0
     }
 
     /**
-     * 뷰가 파괴될 때 호출
+     * view 가 파괴될 때 호출
      */
     override fun onDestroyView() {
         super.onDestroyView()
