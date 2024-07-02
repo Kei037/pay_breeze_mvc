@@ -284,46 +284,47 @@
                     app:chipIconSize="28dp"
                     app:chipIconVisible="true"
                     app:chipStartPadding="0dp"
-                    app:chipStrokeColor="#BCBCBC"
-                    app:chipStrokeWidth="0.5dp"
                     app:iconEndPadding="4dp"
                     app:iconStartPadding="4dp"
                     app:textEndPadding="0dp"
                     app:textStartPadding="0dp" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/cashChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
                     android:layout_weight="1"
-                    android:text="Cash"
+                    android:text="거래종류"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#74ABFF"
-                    app:chipCornerRadius="6dp"
+                    app:chipBackgroundColor="#00A34F"
+                    app:chipCornerRadius="24dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/dateChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
                     android:layout_weight="1"
-                    android:text="Date"
+                    android:text="기간"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#74ABFF"
-                    app:chipCornerRadius="8dp"
+                    app:chipBackgroundColor="#00A34F"
+                    app:chipCornerRadius="24dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/categoryChip"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Category"
+                    android:text="카테고리"
                     android:textColor="@color/white"
                     android:layout_marginRight="24dp"
-                    app:chipBackgroundColor="#74ABFF"
-                    app:chipCornerRadius="6dp"
+                    app:chipBackgroundColor="#00A34F"
+                    app:chipCornerRadius="24dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
             </LinearLayout>
