@@ -1,6 +1,5 @@
 package com.kei037.pay_breeze_mvc.ui.calender
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,8 +13,7 @@ import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
 import com.kei037.pay_breeze_mvc.ui.MiddleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.SingleDateDecorator
 import com.kei037.pay_breeze_mvc.ui.StartEndDateDecorator
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventItem
+import com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.groupEventsByDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
@@ -30,7 +28,6 @@ import java.text.SimpleDateFormat
 import org.threeten.bp.ZoneId
 import java.util.Date
 
-
 class CalenderFragment : Fragment() {
 
     // viewBinding 초기화
@@ -39,6 +36,8 @@ class CalenderFragment : Fragment() {
 
     private lateinit var adapter: EventAdapter
     private lateinit var calendarView: MaterialCalendarView
+
+    // 날짜 선택시 임시 변수
     private var rangeStart: CalendarDay? = null
     private var rangeEnd: CalendarDay? = null
 
@@ -110,7 +109,24 @@ class CalenderFragment : Fragment() {
 
         // 초기화 시 오늘 날짜 이벤트 로드
         loadEventsForDate(SimpleDateFormat("yyyy-MM-dd").format(Date()))
-        updateDayDecorator() // 초기 데코레이터 업데이트
+        updateDayDecorator()
+    }
+
+    // 화면이 다시 활성화될 때 데이터를 새로 고침
+    override fun onResume() {
+        super.onResume()
+        // 화면이 다시 활성화될 때 데이터를 새로 고침
+        if (rangeStart != null && rangeEnd != null) {
+            if (rangeStart == rangeEnd) {
+                // 단일 날짜 선택
+                loadEventsForDate(changeLocalDateToDate(rangeStart!!.date))
+                updateDayDecorator()
+            } else {
+                // 기간 날짜 선택
+                loadEventsForRange(changeLocalDateToDate(rangeStart!!.date), changeLocalDateToDate(rangeEnd!!.date))
+                updateRangeDecorator()
+            }
+        }
     }
 
     /**

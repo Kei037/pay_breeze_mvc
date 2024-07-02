@@ -23,6 +23,7 @@ class SettingFragment : Fragment() {
     private val binding get() = _binding!!
     // DAO 초기화
     private lateinit var transactionDao: TransactionDao
+    private lateinit var categoryDao: CategoryDao
 
     /**
      * 처음 화면을 실행시 viewBinding 초기화
@@ -41,6 +42,7 @@ class SettingFragment : Fragment() {
         // Room 데이터베이스 인스턴스 초기화
         val db = AppDatabase.getInstance(requireContext())
         transactionDao = db.getTransactionDao()
+        categoryDao = db.getCategoryDao()
 
         // 저장 버튼 클릭 리스너 설정
         binding.saveBtn.setOnClickListener {
@@ -51,9 +53,12 @@ class SettingFragment : Fragment() {
             val ctName = binding.cateEditText.text.toString()
             val newTrans = TransactionEntity(null, titleText, amount.toDouble(), date, des, ctName)
 
+            val category = CategoryEntity(null, ctName, false)
+
             // 데이터베이스 작업은 백그라운드 스레드에서 수행
             Thread {
                 transactionDao.insertTransaction(newTrans)
+                categoryDao.insertCategory(category)
                 // UI 업데이트는 메인 스레드에서 수행
                 requireActivity().runOnUiThread {
                     Toast.makeText(requireContext(), "저장됨!!", Toast.LENGTH_SHORT).show()

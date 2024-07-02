@@ -16,7 +16,7 @@ import com.google.android.material.chip.Chip
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.databinding.FragmentHomeBinding
-import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventAdapter
+import com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

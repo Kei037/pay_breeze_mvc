@@ -1,5 +1,6 @@
-package com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter
+package com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -8,6 +9,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.DateItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ListItem
+import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ViewType
 import com.kei037.pay_breeze_mvc.ui.commons.DetailedActivity
 import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 
@@ -78,7 +83,13 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                     val intent = Intent(context, DetailedActivity::class.java).apply {
                         putExtra("EVENT_DETAIL", eventItem.transaction.toString())
                     }
-                    context.startActivity(intent)
+                    // Context를 Activity로 캐스팅하여 애니메이션 적용
+                    if (context is Activity) {
+                        context.startActivity(intent)
+                        context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    } else {
+                        context.startActivity(intent)
+                    }
                 }
             }
             is HomeViewHolder -> {
@@ -90,9 +101,15 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                 // 아이템 클릭 이벤트 처리
                 holder.itemView.setOnClickListener {
                     val intent = Intent(context, DetailedActivity::class.java).apply {
-                        putExtra("Event_detail", homeItem.transaction.toString())
+                        putExtra("EVENT_DETAIL", homeItem.transaction.toString())
                     }
-                    context.startActivity(intent)
+                    // Context를 Activity로 캐스팅하여 애니메이션 적용
+                    if (context is Activity) {
+                        context.startActivity(intent)
+                        context.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
+                    } else {
+                        context.startActivity(intent)
+                    }
                 }
             }
         }
