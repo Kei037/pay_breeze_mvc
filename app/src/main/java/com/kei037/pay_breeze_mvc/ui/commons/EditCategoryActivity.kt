@@ -80,18 +80,8 @@ class EditCategoryActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.IO) {
             val categories = categoryDao.getAll()
 
-            // transactionCategory가 이미 존재하는지 확인
-            val isCategoryExists = categories.any { it.name == transactionCategory }
-
-            // transactionCategory가 존재하지 않는 경우에만 추가
-            val filteredCategories = if (isCategoryExists) {
-                categories
-            } else {
-                categories + transactionCategory?.let { CategoryEntity(-1, it, false) } ?: emptyList()
-            }
-
             launch(Dispatchers.Main) {
-                adapter.submitList(filteredCategories)
+                adapter.submitList(categories)
                 transactionCategory?.let { adapter.setSelectedCategory(it) }
             }
         }
@@ -114,7 +104,7 @@ class EditCategoryActivity : AppCompatActivity() {
 
     private fun addCategory(categoryName: String) {
         val categoryDao = db!!.getCategoryDao()
-        val newCategory = CategoryEntity(0, categoryName, false)
+        val newCategory = CategoryEntity(null, categoryName, false)
 
         lifecycleScope.launch(Dispatchers.IO) {
             categoryDao.insertCategory(newCategory)

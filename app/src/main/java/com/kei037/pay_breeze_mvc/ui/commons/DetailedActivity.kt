@@ -125,7 +125,7 @@ class DetailedActivity : AppCompatActivity() {
         // 파싱된 데이터를 각 변수에 할당
         val id = parts["id"]
         val title = parts["title"]
-        val amount = parts["amount"]
+        val amount = parts["amount"]?.toDouble()
         val transactionDate = parts["transactionDate"]
         val description = parts["description"]
         val categoryName = parts["categoryName"]
@@ -133,7 +133,7 @@ class DetailedActivity : AppCompatActivity() {
         // UI에 초기 데이터 설정
         binding.titleText.tag = id
         binding.titleText.text = title
-        binding.amountText.text = amount
+        binding.amountText.text = amount?.let { Utils.formatDouble(it) }
         binding.dateText.text = transactionDate
         binding.descriptionText.text = description
         binding.categoryText.text = categoryName

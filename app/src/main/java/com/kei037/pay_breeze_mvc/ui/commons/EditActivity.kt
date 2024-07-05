@@ -87,8 +87,10 @@ class EditActivity : AppCompatActivity() {
             val editTitle = binding.editTitle.text.toString()
             var editAmount = binding.editAmount.text.toString().toDoubleOrNull() ?: 0.0
 
-            if (!isExpense) {
-                editAmount = -editAmount
+            if (isExpense && editAmount < 0) {
+                editAmount = -editAmount;
+            } else if (!isExpense && editAmount > 0) {
+                editAmount = -editAmount;
             }
 
             val editDate = binding.editDate.text.toString()
@@ -153,6 +155,7 @@ class EditActivity : AppCompatActivity() {
         val chipIncome = binding.chipIncome
         val chipExpense = binding.chipExpense
 
+        // 수입 선택시
         if (isIncome) {
             chipIncome.apply {
                 isChecked = true
@@ -165,7 +168,7 @@ class EditActivity : AppCompatActivity() {
                 setTextColor(Color.BLACK)
             }
             isExpense = true
-        } else {
+        } else { // 지출 선택시
             chipExpense.apply {
                 isChecked = true
                 setChipBackgroundColorResource(R.color.black)

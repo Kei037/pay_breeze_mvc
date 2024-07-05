@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.DateItem
@@ -14,6 +15,7 @@ import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.EventItem
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ListItem
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.ViewType
 import com.kei037.pay_breeze_mvc.ui.commons.DetailedActivity
+import com.kei037.pay_breeze_mvc.ui.commons.Utils
 import com.kei037.pay_breeze_mvc.ui.home.homeAdapter.HomeItem
 
 // RecyclerView의 어댑터 클래스 정의, 여러 종류의 뷰 타입을 처리
@@ -76,7 +78,14 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                 val eventItem = item as EventItem
                 holder.titleTextView.text = eventItem.transaction.title
                 holder.categoryTextView.text = eventItem.transaction.categoryName
-                holder.amountTextView.text = eventItem.transaction.amount.toString()
+                holder.amountTextView.text = Utils.formatDouble(eventItem.transaction.amount)
+
+                // 금액이 양수일 때 customBlue 색상으로 설정
+                if (eventItem.transaction.amount > 0) {
+                    holder.amountTextView.setTextColor(ContextCompat.getColor(context, R.color.customBlue))
+                } else {
+                    holder.amountTextView.setTextColor(ContextCompat.getColor(context, android.R.color.black))
+                }
 
                 // 아이템 클릭 이벤트 처리
                 holder.itemView.setOnClickListener {
@@ -92,11 +101,19 @@ class EventAdapter(private var items: List<ListItem>, private val context: Conte
                     }
                 }
             }
+            // HomeViewHolder일 경우
             is HomeViewHolder -> {
                 val homeItem = item as HomeItem
                 holder.titleTextView.text = homeItem.title
                 holder.categoryTextView.text = homeItem.categoryName
-                holder.amountTextView.text = homeItem.amount.toString()
+                holder.amountTextView.text = Utils.formatDouble(homeItem.amount)
+
+                // 금액이 양수일 때 customBlue 색상으로 설정
+                if (homeItem.amount > 0) {
+                    holder.amountTextView.setTextColor(ContextCompat.getColor(context, R.color.customBlue))
+                } else {
+                    holder.amountTextView.setTextColor(ContextCompat.getColor(context, android.R.color.black))
+                }
 
                 // 아이템 클릭 이벤트 처리
                 holder.itemView.setOnClickListener {

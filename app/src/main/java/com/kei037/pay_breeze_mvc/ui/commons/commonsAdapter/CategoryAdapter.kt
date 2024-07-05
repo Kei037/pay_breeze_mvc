@@ -1,6 +1,5 @@
 package com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter
 
-import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -49,11 +48,16 @@ class CategoryAdapter(
             holder.bind(category, selectedPosition == position)
 
             holder.itemView.setOnClickListener {
-                if (selectedPosition != RecyclerView.NO_POSITION) {
-                    notifyItemChanged(selectedPosition)
-                }
+                val previousSelectedPosition = selectedPosition
                 selectedPosition = holder.adapterPosition
+
+                // 이전 선택된 항목 갱신
+                if (previousSelectedPosition != RecyclerView.NO_POSITION) {
+                    notifyItemChanged(previousSelectedPosition)
+                }
+                // 현재 선택된 항목 갱신
                 notifyItemChanged(selectedPosition)
+
                 onCategorySelected(category)
             }
 
@@ -87,6 +91,22 @@ class CategoryAdapter(
         }
         submitList(updatedList) {
             setSelectedCategory(category.name)
+        }
+    }
+
+    fun deleteCategory(category: CategoryEntity) {
+        val position = currentList.indexOfFirst { it.id == category.id }
+        if (position != -1) {
+            val updatedList = currentList.toMutableList().apply {
+                removeAt(position)
+            }
+            submitList(updatedList) {
+                // 삭제된 항목이 선택된 항목이었을 경우 선택 상태 초기화
+                if (position == selectedPosition) {
+                    selectedPosition = RecyclerView.NO_POSITION
+                }
+                notifyItemRangeChanged(position, updatedList.size)
+            }
         }
     }
 
