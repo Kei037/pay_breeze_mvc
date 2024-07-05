@@ -56,7 +56,7 @@ class DetailedActivity : AppCompatActivity() {
             updateUIWithTransactionString(it)
         }
 
-        // editBtn에 밑줄 설정 및 클릭 리스너 추가
+        // editBtn에 언더라인 및 클릭 리스너 추가
         val editBtn = binding.editBtn
         editBtn.paintFlags = editBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         editBtn.setOnClickListener {
@@ -74,11 +74,45 @@ class DetailedActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
-        binding.deleteBtn.setOnClickListener {
+        // 삭제버튼 언더라인
+        val deleteBtn = binding.deleteBtn
+        deleteBtn.paintFlags = deleteBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
+        // 삭제버튼 클릭
+        deleteBtn.setOnClickListener {
+            showDeleteConfirmationDialog()
         }
     }
 
+    // 삭제버튼 클릭시 확인 Dialog창 띄움
+    private fun showDeleteConfirmationDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("삭제 확인")
+        builder.setMessage("정말로 삭제하시겠습니까?")
+        builder.setPositiveButton("삭제") { dialog, _ ->
+            val transactionId = binding.titleText.tag as? String
+            transactionId?.let {
+                deleteTransaction(it)
+            }
+            dialog.dismiss()
+        }
+        builder.setNegativeButton("취소") { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+    // 삭제 후 이전 화면으로 나가기
+    private fun deleteTransaction(transactionId: String) {
+        GlobalScope.launch(Dispatchers.IO) {
+            db.getTransactionDao().deleteTransactionById(transactionId.toLong())
+            withContext(Dispatchers.Main) {
+                finish()
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+            }
+        }
+    }
 
     private fun updateUIWithTransactionString(transactionEntityString: String) {
         // 전달된 문자열을 클리닝하고 파싱하여 각 필드 추출

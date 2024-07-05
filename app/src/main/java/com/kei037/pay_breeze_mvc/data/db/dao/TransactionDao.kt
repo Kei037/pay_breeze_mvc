@@ -36,4 +36,6 @@ interface TransactionDao {
     @Update
     fun updateTransaction(transaction: TransactionEntity)
 
+    @Query("DELETE FROM TransactionEntity WHERE id = :id")
+    fun deleteTransactionById(id: Long)
 }
