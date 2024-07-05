@@ -9,6 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- custom color -->
-    <color name="amountSelect">#82C7FF</color>
+    <color name="customBlue">#2D6EFF</color>
     <color name="gray">#AAAAAA</color>
 </resources>
