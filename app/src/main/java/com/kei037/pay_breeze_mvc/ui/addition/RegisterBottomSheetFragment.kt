@@ -26,6 +26,7 @@ import com.kei037.pay_breeze_mvc.databinding.RegisterBottomSheetBinding
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.concurrent.CountDownLatch
 
 /**
  * bottom sheet fragment : 새로운 트랜잭션을 등록
@@ -122,6 +123,15 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
                 it.setBackgroundResource(R.drawable.bg_register_bottom_sheet)
             }
         }
+
+        // 오늘 날짜 설정
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val currentDate = Date()
+        val formattedDate = sdf.format(currentDate)
+        binding.dateInput.setText(formattedDate)
+
+        // 오늘 날짜를 selectedDate에 설정
+        selectedDate = currentDate
     }
 
     /**
@@ -245,7 +255,7 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
          */
         override fun doInBackground(vararg params: Void?): Boolean {
             return try {
-                val newCategory = CategoryEntity(name = categoryName, isPublic = true) //
+                val newCategory = CategoryEntity(name = categoryName, isPublic = false) //
                 repository.insertCategory(newCategory)
                 Log.d("BottomSheet", "Category saved to DB: $categoryName")
                 true
@@ -498,10 +508,28 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
      * @param categoryName : category 이름
      * @return Boolean : 기본 제공 category 여부
      */
+
     private fun isBuiltInCategory(categoryName: String): Boolean {
-        val builtInCategories = listOf("Food", "Fuel", "Shopping", "Mobile Plan", "Rent", "Investment", "Salary")
-        return builtInCategories.contains(categoryName)
+        val latch = CountDownLatch(1)
+        var result = false
+
+        Thread {
+            val categories: List<CategoryEntity> = categoryRepository.getCategoryByIsPublic(true)
+            val builtInCategories: List<String> = categories.map { it.name }
+            Log.i("확인 !!! ======= ", builtInCategories.toString())
+            result = builtInCategories.contains(categoryName)
+            latch.countDown() // 작업 완료를 알림
+        }.start()
+
+        latch.await() // 스레드가 작업을 완료할 때까지 대기
+
+        return result
     }
+
+//    private fun isBuiltInCategory(categoryName: String): Boolean {
+//        val builtInCategories = listOf("Food", "Fuel", "Shopping", "Mobile Plan", "Rent", "Investment", "Salary")
+//        return builtInCategories.contains(categoryName)
+//    }
 
     /**
      * category 를 database 에서 삭제
