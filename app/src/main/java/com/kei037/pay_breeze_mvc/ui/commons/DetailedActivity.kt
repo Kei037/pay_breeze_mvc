@@ -8,8 +8,13 @@ import com.kei037.pay_breeze_mvc.databinding.ActivityDetailedBinding
 import android.graphics.Paint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailedActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailedBinding
@@ -68,7 +73,12 @@ class DetailedActivity : AppCompatActivity() {
             editActivityResultLauncher.launch(intent)
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
+
+        binding.deleteBtn.setOnClickListener {
+
+        }
     }
+
 
     private fun updateUIWithTransactionString(transactionEntityString: String) {
         // 전달된 문자열을 클리닝하고 파싱하여 각 필드 추출

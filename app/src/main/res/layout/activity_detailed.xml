@@ -25,6 +25,16 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="2dp"/>
         <TextView
+            android:id="@+id/deleteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:textSize="20dp"
+            android:textColor="#306AFF"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/editBtn"
+            android:layout_marginEnd="28dp"/>
+        <TextView
             android:id="@+id/editBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
