@@ -21,6 +21,12 @@ interface TransactionDao {
     @Query("SELECT * FROM TransactionEntity WHERE id = :id")
     fun getTransactionsByID(id: Long): TransactionEntity
 
+    @Query("SELECT SUM(amount) FROM TransactionEntity WHERE amount > 0 AND transaction_date = :date")
+    fun getTotalIncomeByDate(date: String): Double?
+
+    @Query("SELECT SUM(amount) FROM TransactionEntity WHERE amount < 0 AND transaction_date = :date")
+    fun getTotalExpenseByDate(date: String): Double?
+
     @Insert
     fun insertTransaction(transaction: TransactionEntity)
 

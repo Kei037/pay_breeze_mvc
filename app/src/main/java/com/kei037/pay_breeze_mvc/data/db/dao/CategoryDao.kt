@@ -1,6 +1,5 @@
 package com.kei037.pay_breeze_mvc.data.db.dao
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
