@@ -18,4 +18,12 @@ class TransactionRepository(context: Context) {
     fun deleteTransaction(transaction: TransactionEntity) {
         transactionDao.deleteTransaction(transaction)
     }
+
+    fun getTotalIncomeByDate(date: String): Double {
+        return transactionDao.getTotalIncomeByDate(date) ?: 0.0
+    }
+
+    fun getTotalExpenseByDate(date: String): Double {
+        return transactionDao.getTotalExpenseByDate(date) ?: 0.0
+    }
 }

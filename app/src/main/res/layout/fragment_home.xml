@@ -48,27 +48,12 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <!-- Logo -->
-                    <TextView
+                    <ImageView
                         android:id="@+id/logoView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="로고"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/logo"/>
 
-                    <!-- Name -->
-                    <TextView
-                        android:id="@+id/nameTextView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="홍길동 님"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
                 </LinearLayout>
                 <!-- ScrollView -->
                 <ScrollView
@@ -103,11 +88,11 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/todaysMoney"
+                                android:id="@+id/todaysTotal"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="9400"
+                                android:text="0"
                                 android:textColor="@color/black"
                                 android:textSize="72dp"
                                 android:textStyle="bold" />
@@ -141,6 +126,7 @@
                                     android:textColor="@color/black" />
 
                                 <TextView
+                                    android:id="@+id/todaysIncome"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -165,6 +151,7 @@
                                     android:textColor="@color/black" />
 
                                 <TextView
+                                    android:id="@+id/todaysExpenses"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
@@ -194,7 +181,7 @@
 
 
                 <TextView
-                    android:id="@+id/totalCount"
+                    android:id="@+id/miniTotal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="28dp"
@@ -215,36 +202,37 @@
                     android:textSize="28dp"
                     android:textColor="#8F8F8F"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/totalCount"
+                    app:layout_constraintLeft_toRightOf="@+id/miniTotal"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/miniIn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
+                    android:text="4000"
+                    android:textSize="24dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/miniTotal"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/mini_ex"
+                    android:id="@+id/miniEx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="8dp"
-                    android:text="13000"
+                    android:text="-13000"
                     android:textSize="24dp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/totalCount"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/mini_in"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="12dp"
-                    android:text="-4000"
-                    android:textSize="24dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/mini_ex"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/miniIn"
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -275,16 +263,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="0.1"
-                    android:padding="0dp"
                     android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
                     app:chipBackgroundColor="@color/white"
                     app:chipCornerRadius="6dp"
-                    app:chipEndPadding="0dp"
                     app:chipIcon="@drawable/filter_icon"
                     app:chipIconSize="28dp"
                     app:chipIconVisible="true"
-                    app:chipStartPadding="0dp"
                     app:iconEndPadding="4dp"
                     app:iconStartPadding="4dp"
                     app:textEndPadding="0dp"
@@ -298,8 +282,8 @@
                     android:layout_weight="0.2"
                     android:text="거래종류"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#00A34F"
-                    app:chipCornerRadius="24dp"
+                    app:chipBackgroundColor="#ACACAC"
+                    app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
 
@@ -311,8 +295,8 @@
                     android:layout_weight="0.3"
                     android:text="기간"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#00A34F"
-                    app:chipCornerRadius="24dp"
+                    app:chipBackgroundColor="#ACACAC"
+                    app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
 
@@ -324,8 +308,8 @@
                     android:text="카테고리"
                     android:textColor="@color/white"
                     android:layout_marginRight="24dp"
-                    app:chipBackgroundColor="#00A34F"
-                    app:chipCornerRadius="24dp"
+                    app:chipBackgroundColor="#ACACAC"
+                    app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/popupmenu_icon"
                     app:closeIconEnabled="true" />
             </LinearLayout>
