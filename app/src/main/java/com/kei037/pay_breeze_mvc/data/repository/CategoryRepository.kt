@@ -22,4 +22,8 @@ class CategoryRepository(context: Context) {
     fun getCategoryByName(name: String): List<CategoryEntity> {
         return categoryDao.getCategoryByName(name)
     }
+
+    fun getCategoryByIsPublic(isPublic: Boolean): List<CategoryEntity> {
+        return categoryDao.getCategoriesByPublicStatus(isPublic)
+    }
 }

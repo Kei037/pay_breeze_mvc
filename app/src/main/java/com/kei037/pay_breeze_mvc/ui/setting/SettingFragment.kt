@@ -29,7 +29,7 @@ class SettingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.goEditCategory.setOnClickListener {
-            val intent = Intent(activity, EditSettingCategoryActivity::class.java)
+            val intent = Intent(activity, CustomCategoryActivity::class.java)
             startActivity(intent)
         }
 

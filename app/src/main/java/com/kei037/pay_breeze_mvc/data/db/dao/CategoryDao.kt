@@ -20,4 +20,7 @@ interface CategoryDao {
 
     @Delete
     fun deleteCategory(category: CategoryEntity)
+
+    @Query("SELECT * FROM CategoryEntity WHERE is_public = :isPublic")
+    fun getCategoriesByPublicStatus(isPublic: Boolean): List<CategoryEntity>
 }

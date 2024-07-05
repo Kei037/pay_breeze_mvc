@@ -14,10 +14,10 @@
         android:theme="@style/Theme.Pay_breeze_mvc"
         tools:targetApi="31">
         <activity
-            android:name=".ui.setting.HistoricalTransActivity"
+            android:name=".ui.setting.CustomCategoryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.setting.EditSettingCategoryActivity"
+            android:name=".ui.setting.HistoricalTransActivity"
             android:exported="false" />
         <activity
             android:name=".ui.commons.EditCategoryActivity"
