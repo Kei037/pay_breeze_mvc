@@ -20,6 +20,8 @@ class SettingFragment : Fragment() {
     private var dX = 0f
     private var dY = 0f
     private var lastAction = 0
+    private val developerEmail = "juneway6230@gamilc.com"
+    private val appVersion = "v 0.1"
 
     /**
      * 처음 화면을 실행시 viewBinding 초기화
@@ -46,8 +48,10 @@ class SettingFragment : Fragment() {
         }
 
         binding.contactDeveloper.setOnClickListener {
-            showEmailDialog("juneway6230@gmail.com")
+            showEmailDialog(developerEmail)
         }
+
+        binding.versionTextView.text = appVersion
     }
 
     private fun showEmailDialog(email: String) {
