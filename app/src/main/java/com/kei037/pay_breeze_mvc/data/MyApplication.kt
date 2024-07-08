@@ -19,7 +19,7 @@ class MyApplication : Application() {
         val db = AppDatabase.getInstance(this)
         val categoryList = mutableListOf<String>(
             "월급", "식비", "교통비", "커피/디저트", "쇼핑", "생활비", "통신비",
-            "편의점", "공과금/관리비", "병원비", "반려동물", "공과금/관리비")
+            "편의점", "공과금/관리비", "병원비", "반려동물")
 
         CoroutineScope(Dispatchers.IO).launch {
             val categoryDao = db.getCategoryDao()

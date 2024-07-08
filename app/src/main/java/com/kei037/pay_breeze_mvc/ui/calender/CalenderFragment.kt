@@ -151,7 +151,6 @@ class CalenderFragment : Fragment() {
         return formattedDate
     }
 
-
     /**
      * 날짜 설정시 가계부 출력
      * @param dateString 날짜
@@ -186,7 +185,6 @@ class CalenderFragment : Fragment() {
         }
     }
 
-
     /**
      * 날짜 하루 선택 색상 변경
      */
@@ -195,11 +193,10 @@ class CalenderFragment : Fragment() {
         rangeStart?.let {
             calendarView.addDecorator(
                 SingleDateDecorator(it, requireContext(),
-                R.drawable.selection_background
-            ))
+                    R.drawable.selection_background
+                ))
         }
     }
-
 
     /**
      * 날짜 기간 선택 색상 변경

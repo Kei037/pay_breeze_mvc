@@ -32,7 +32,7 @@ class EditActivity : AppCompatActivity() {
     // DB 초기화
     private var db: AppDatabase? = null
 
-    private var isExpense: Boolean = true
+    private var isExpense: Boolean? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,12 +85,16 @@ class EditActivity : AppCompatActivity() {
         // 수정된 값들을 저장
         finishBtn.setOnClickListener {
             val editTitle = binding.editTitle.text.toString()
-            var editAmount = binding.editAmount.text.toString().toDoubleOrNull() ?: 0.0
+            val editAmountString = binding.editAmount.text.toString()
 
-            if (isExpense && editAmount < 0) {
-                editAmount = -editAmount;
-            } else if (!isExpense && editAmount > 0) {
-                editAmount = -editAmount;
+            var editAmount = editAmountString.replace(",", "").toDouble()
+
+            if (isExpense == null) {
+                editAmount = editAmount
+            } else if (isExpense!! && editAmount < 0) {
+                editAmount = -editAmount
+            } else if (!isExpense!! && editAmount > 0) {
+                editAmount = -editAmount
             }
 
             val editDate = binding.editDate.text.toString()
