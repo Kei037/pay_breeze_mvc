@@ -39,7 +39,7 @@
                 <LinearLayout
                     android:id="@+id/headerLayout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingBottom="16dp"
@@ -51,7 +51,7 @@
                     <ImageView
                         android:id="@+id/logoView"
                         android:layout_width="80dp"
-                        android:layout_height="30dp"
+                        android:layout_height="40dp"
                         android:src="@drawable/logo"/>
 
                 </LinearLayout>
@@ -171,7 +171,7 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="80dp"
                 android:layout_gravity="bottom"
-                android:alpha="1">
+                android:alpha="0">
 
                 <View
                     android:id="@+id/firstView"
@@ -260,24 +260,24 @@
                 android:layout_gravity="center_horizontal">
 
                 <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChip"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="0.1"
-                    android:layout_marginLeft="8dp"
+
                     app:chipBackgroundColor="@color/white"
                     app:chipCornerRadius="6dp"
                     app:chipIcon="@drawable/filter_icon"
                     app:chipIconSize="28dp"
                     app:chipIconVisible="true"
-                    app:iconEndPadding="4dp"
-                    app:iconStartPadding="4dp"
-                    app:textEndPadding="0dp"
+                    app:iconStartPadding="8dp"
+                    app:textEndPadding="4dp"
                     app:textStartPadding="0dp" />
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/cashChip"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:layout_marginRight="12dp"
                     android:layout_weight="0.2"
                     android:text="거래종류"
@@ -290,7 +290,7 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/dateChip"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:layout_marginRight="12dp"
                     android:layout_weight="0.3"
                     android:text="기간"
@@ -303,7 +303,7 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/categoryChip"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:layout_weight="0.4"
                     android:text="카테고리"
                     android:textColor="@color/white"

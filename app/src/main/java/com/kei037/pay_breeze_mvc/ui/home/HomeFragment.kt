@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.chip.Chip
 import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.data.repository.CategoryRepository
 import com.kei037.pay_breeze_mvc.data.repository.TransactionRepository
 import com.kei037.pay_breeze_mvc.databinding.FragmentHomeBinding
 import com.kei037.pay_breeze_mvc.ui.commons.Utils
@@ -33,12 +35,14 @@ class HomeFragment : Fragment() {
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var twoCl: ConstraintLayout
     private lateinit var buttonLayout: LinearLayout
+    private lateinit var filterChip: Chip
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var adapter: EventAdapter
 
-    private lateinit var repository: TransactionRepository
+    private lateinit var transactionRepository: TransactionRepository
+    private lateinit var categoryRepository: CategoryRepository
 
     private lateinit var allTransactions: List<HomeItem>
 
@@ -60,13 +64,15 @@ class HomeFragment : Fragment() {
         appBarLayout = binding.appBarLayout
         twoCl = binding.twoCl
         buttonLayout = binding.buttonLayout
+        filterChip = binding.filterChip
 
         val eventRecyclerView: RecyclerView = binding.recyclerView
         eventRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         adapter = EventAdapter(emptyList(), requireContext())
         eventRecyclerView.adapter = adapter
 
-        repository = TransactionRepository(requireContext())
+        transactionRepository = TransactionRepository(requireContext())
+        categoryRepository = CategoryRepository(requireContext())
 
         loadTransactionsFromDatabase()
         updateTransactionViews()
@@ -92,6 +98,12 @@ class HomeFragment : Fragment() {
             }
         })
 
+        // 필터 초기화
+        filterChip.setOnClickListener {
+            resetFilters()
+            Toast.makeText(requireContext(), "필터가 해제되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+
         // Chip 클릭 리스너 설정
         val menuChip1: Chip = binding.cashChip
         menuChip1.setOnClickListener {
@@ -110,6 +122,45 @@ class HomeFragment : Fragment() {
     }
 
 
+    // 화면 새로고침
+    override fun onResume() {
+        super.onResume()
+        restoreFilterChipTexts()
+        loadTransactionsFromDatabase {
+            applyFilters()
+        }
+        updateTransactionViews()
+    }
+
+    // 필터 그대로
+    private fun restoreFilterChipTexts() {
+        binding.cashChip.text = currentType ?: "거래종류"
+        binding.dateChip.text = when (currentPeriod) {
+            "1주일" -> "1주일"
+            "1개월" -> "1개월"
+            "3개월" -> "3개월"
+            "6개월" -> "6개월"
+            else -> "기간"
+        }
+        binding.categoryChip.text = currentCategory ?: "카테고리"
+    }
+
+
+    // 필터 초기화 함수
+    private fun resetFilters() {
+        currentType = null
+        currentCategory = null
+        currentPeriod = null
+
+        binding.cashChip.text = "거래종류"
+        binding.dateChip.text = "기간"
+        binding.categoryChip.text = "카테고리"
+
+        // 전체 리스트 업데이트
+        loadTransactionsFromDatabase {
+            adapter.updateEvents(allTransactions)
+        }
+    }
 
     // 필터링 함수
     private fun applyFilters() {
@@ -223,39 +274,40 @@ class HomeFragment : Fragment() {
     private fun showPopupMenu3(view: View, chip: Chip) {
         val popupMenu = PopupMenu(requireContext(), view)
         popupMenu.menuInflater.inflate(R.menu.menu_home3, popupMenu.menu)
+
+        lifecycleScope.launch {
+            val categories = withContext(Dispatchers.IO) {
+                categoryRepository.getAllCategories()
+            }
+            categories.forEach { category ->
+                popupMenu.menu.add(category.name).setOnMenuItemClickListener {
+                    chip.text = category.name
+                    currentCategory = category.name
+                    applyFilters()
+                    true
+                }
+            }
+            popupMenu.show()
+        }
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.category_none -> {
                     chip.text = "카테고리"
                     currentCategory = null
+                    applyFilters()
+                    true
                 }
-                R.id.category_1 -> {
-                    chip.text = menuItem.title
-                    currentCategory = menuItem.title.toString()
-                }
-                R.id.category_2 -> {
-                    chip.text = menuItem.title
-                    currentCategory = menuItem.title.toString()
-                }
-                R.id.category_3 -> {
-                    chip.text = menuItem.title
-                    currentCategory = menuItem.title.toString()
-                }
-                // Add more categories as needed
                 else -> false
             }
-            applyFilters()
-            true
         }
-        popupMenu.show()
     }
 
 
-    private fun loadTransactionsFromDatabase() {
+    private fun loadTransactionsFromDatabase(onComplete: (() -> Unit)? = null) {
         lifecycleScope.launch {
             try {
                 val transactionEntities = withContext(Dispatchers.IO) {
-                    repository.getAllTransactions()
+                    transactionRepository.getAllTransactions()
                 }
 
                 allTransactions = transactionEntities.map { transaction ->
@@ -263,16 +315,18 @@ class HomeFragment : Fragment() {
                         title = transaction.title,
                         categoryName = transaction.categoryName,
                         amount = transaction.amount,
-                        transaction
+                        transaction = transaction
                     )
                 }
 
                 adapter.updateEvents(allTransactions)
+                onComplete?.let { it() }
             } catch (e: Exception) {
                 e.printStackTrace()
             }
         }
     }
+
 
 
     // total, income, expenses 불러오기
@@ -283,10 +337,10 @@ class HomeFragment : Fragment() {
                 val todayDate = dateFormat.format(Date())
 
                 val income = withContext(Dispatchers.IO) {
-                    repository.getTotalIncomeByDate(todayDate)
+                    transactionRepository.getTotalIncomeByDate(todayDate)
                 }
                 val expense = withContext(Dispatchers.IO) {
-                    repository.getTotalExpenseByDate(todayDate)
+                    transactionRepository.getTotalExpenseByDate(todayDate)
                 }
                 val total = income + expense
 
