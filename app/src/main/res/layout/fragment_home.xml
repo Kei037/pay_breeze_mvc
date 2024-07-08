@@ -27,7 +27,7 @@
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="60dp"
                 app:layout_collapseMode="pin" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -282,10 +282,11 @@
                     android:layout_weight="0.2"
                     android:text="거래종류"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#ACACAC"
+                    app:chipBackgroundColor="@color/customGreen"
                     app:chipCornerRadius="12dp"
-                    app:closeIcon="@drawable/popupmenu_icon"
-                    app:closeIconEnabled="true" />
+                    app:closeIcon="@drawable/arrow_drop_down_icon"
+                    app:closeIconEnabled="true"
+                    app:closeIconTint="#FFFFFF"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/dateChip"
@@ -295,10 +296,11 @@
                     android:layout_weight="0.3"
                     android:text="기간"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="#ACACAC"
+                    app:chipBackgroundColor="@color/customGreen"
                     app:chipCornerRadius="12dp"
-                    app:closeIcon="@drawable/popupmenu_icon"
-                    app:closeIconEnabled="true" />
+                    app:closeIcon="@drawable/arrow_drop_down_icon"
+                    app:closeIconEnabled="true"
+                    app:closeIconTint="#FFFFFF"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/categoryChip"
@@ -308,10 +310,11 @@
                     android:text="카테고리"
                     android:textColor="@color/white"
                     android:layout_marginRight="24dp"
-                    app:chipBackgroundColor="#ACACAC"
+                    app:chipBackgroundColor="@color/customGreen"
                     app:chipCornerRadius="12dp"
-                    app:closeIcon="@drawable/popupmenu_icon"
-                    app:closeIconEnabled="true" />
+                    app:closeIcon="@drawable/arrow_drop_down_icon"
+                    app:closeIconEnabled="true"
+                    app:closeIconTint="#FFFFFF"/>
             </LinearLayout>
 
             <!-- RecyclerView -->

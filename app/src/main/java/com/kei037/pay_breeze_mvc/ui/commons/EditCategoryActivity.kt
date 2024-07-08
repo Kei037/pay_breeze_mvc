@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,6 +31,11 @@ class EditCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditCategoryBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val actionBar: ActionBar? = supportActionBar
+        if (actionBar != null) {
+            actionBar.hide()
+        }
 
         binding.backBtn.setOnClickListener {
             finish()

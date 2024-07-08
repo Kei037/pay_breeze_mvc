@@ -11,4 +11,6 @@
     <!-- custom color -->
     <color name="customBlue">#2D6EFF</color>
     <color name="gray">#AAAAAA</color>
+    <color name="customGreen">#BFD200</color>
+
 </resources>

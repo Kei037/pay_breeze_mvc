@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -39,6 +40,11 @@ class EditActivity : AppCompatActivity() {
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val actionBar: ActionBar? = supportActionBar
+        if (actionBar != null) {
+            actionBar.hide()
+        }
+
         // 뒤로가기 버튼
         binding.backBtn.setOnClickListener {
             finish()
@@ -67,7 +73,7 @@ class EditActivity : AppCompatActivity() {
         finishBtn.paintFlags = finishBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         // datePicker 생성
-        binding.editDate.setOnClickListener {
+        binding.editDateLinear.setOnClickListener {
             showDatePicker()
         }
 

@@ -8,6 +8,7 @@ import com.kei037.pay_breeze_mvc.databinding.ActivityDetailedBinding
 import android.graphics.Paint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
@@ -25,6 +26,11 @@ class DetailedActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailedBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val actionBar: ActionBar? = supportActionBar
+        if (actionBar != null) {
+            actionBar.hide()
+        }
 
         // 데이터베이스 인스턴스 초기화
         db = AppDatabase.getInstance(this)
@@ -56,9 +62,8 @@ class DetailedActivity : AppCompatActivity() {
             updateUIWithTransactionString(it)
         }
 
-        // editBtn에 언더라인 및 클릭 리스너 추가
+        // editBtn 클릭 리스너 추가
         val editBtn = binding.editBtn
-        editBtn.paintFlags = editBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         editBtn.setOnClickListener {
             // EditActivity로 이동하는 Intent 생성
             val intent = Intent(this, EditActivity::class.java).apply {
@@ -74,11 +79,8 @@ class DetailedActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
-        // 삭제버튼 언더라인
-        val deleteBtn = binding.deleteBtn
-        deleteBtn.paintFlags = deleteBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-
         // 삭제버튼 클릭
+        val deleteBtn = binding.deleteBtn
         deleteBtn.setOnClickListener {
             showDeleteConfirmationDialog()
         }
