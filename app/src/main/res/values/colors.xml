@@ -17,4 +17,7 @@
     <color name="customDarkGray">#9b9b9b</color>
     <color name="customIvory">#fbf5e1</color>
 
+    <color name="chip_background_color">#F8F8F8</color>
+    <color name="chip_stroke_color">#E8E8E8</color>
+
 </resources>

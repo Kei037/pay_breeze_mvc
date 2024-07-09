@@ -17,6 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
@@ -456,27 +457,38 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
      */
     private fun loadCategories() {
         AsyncTask.execute {
-            val category = categoryRepository.getAllCategories()
+            val categories = categoryRepository.getAllCategories()
             activity?.runOnUiThread {
-                val chipGroup = binding.chipGroupCategory
-                category.forEach { category ->
-                    val chip = Chip(context)
-                    chip.text = category.name
-                    chip.isCheckable = true
-                    chip.chipIcon = context?.getDrawable(R.drawable.checked_chip_icon)
-                    chip.isChipIconVisible = false
-                    chip.setOnCheckedChangeListener { buttonView, isChecked ->
-                        val chipButton = buttonView as Chip
-                        chipButton.chipIcon = if (isChecked) context?.getDrawable(R.drawable.checked_chip_icon) else null
-                        chipButton.isChipIconVisible = isChecked
-                    }
-                    chip.setOnClickListener {
-                        addCategoryToTempList(category.name)
-                    }
-                    chipGroup.addView(chip)
-                }
+                setupCategoryChips(categories)
             }
         }
+    }
+
+    private fun setupCategoryChips(categories: List<CategoryEntity>) {
+        val chipGroup = binding.chipGroupCategory
+        categories.forEach { category ->
+            val chip = createCategoryChip(category)
+            chipGroup.addView(chip)
+        }
+    }
+
+    private fun createCategoryChip(category: CategoryEntity): Chip {
+        val chip = Chip(context).apply {
+            text = category.name
+            isCheckable = true
+            val chipDrawable = ChipDrawable.createFromAttributes(context, null, 0, R.style.CustomChipStyle)
+            setChipDrawable(chipDrawable)
+            setTextAppearance(R.style.CustomChipStyle) // 스타일 적용
+            setOnCheckedChangeListener { buttonView, isChecked ->
+                val chipButton = buttonView as Chip
+                chipButton.chipIcon = if (isChecked) context?.getDrawable(R.drawable.checked_chip_icon) else null
+                chipButton.isChipIconVisible = isChecked
+            }
+            setOnClickListener {
+                addCategoryToTempList(category.name)
+            }
+        }
+        return chip
     }
 
     /**
@@ -516,7 +528,6 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         Thread {
             val categories: List<CategoryEntity> = categoryRepository.getCategoryByIsPublic(true)
             val builtInCategories: List<String> = categories.map { it.name }
-            Log.i("확인 !!! ======= ", builtInCategories.toString())
             result = builtInCategories.contains(categoryName)
             latch.countDown() // 작업 완료를 알림
         }.start()
@@ -525,11 +536,6 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
 
         return result
     }
-
-//    private fun isBuiltInCategory(categoryName: String): Boolean {
-//        val builtInCategories = listOf("Food", "Fuel", "Shopping", "Mobile Plan", "Rent", "Investment", "Salary")
-//        return builtInCategories.contains(categoryName)
-//    }
 
     /**
      * category 를 database 에서 삭제

@@ -1,0 +1,13 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="14dp"
+    android:height="14dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960">
+  <!-- Background circle -->
+  <path
+      android:pathData="M480,0A480,480 0,1 1,479.9,0Z"
+      android:fillColor="#FF0000" />
+  <path
+      android:pathData="M287,730.15 L231.85,673l192,-193 -192,-195L287,227.85l194,195 192,-195L728.15,285l-192,195 192,193L673,730.15l-192,-195 -194,195Z"
+      android:fillColor="#000000"/>
+</vector>

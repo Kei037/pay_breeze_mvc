@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -34,8 +35,9 @@ class HomeFragment : Fragment() {
     /* 투명도 조절 */
     private lateinit var appBarLayout: AppBarLayout
     private lateinit var twoCl: ConstraintLayout
-    private lateinit var buttonLayout: LinearLayout
+    private lateinit var buttonLayout: ConstraintLayout
     private lateinit var filterChip: Chip
+    private lateinit var cancelIcon: ImageView // cancelIcon 초기화
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -65,6 +67,7 @@ class HomeFragment : Fragment() {
         twoCl = binding.twoCl
         buttonLayout = binding.buttonLayout
         filterChip = binding.filterChip
+        cancelIcon = binding.cancelIcon // cancelIcon 초기화
 
         val eventRecyclerView: RecyclerView = binding.recyclerView
         eventRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -119,8 +122,17 @@ class HomeFragment : Fragment() {
         menuChip3.setOnClickListener {
             showPopupMenu3(it, menuChip3)
         }
-    }
 
+        // cancelIcon 클릭 리스너 설정
+        cancelIcon.setOnClickListener {
+            resetFilters()
+            cancelIcon.visibility = View.GONE // Hide cancel icon when it is clicked
+            Toast.makeText(requireContext(), "필터가 해제되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+
+        // 초기 cancelIcon 가시성 설정
+        updateCancelIconVisibility()
+    }
 
     // 화면 새로고침
     override fun onResume() {
@@ -145,7 +157,6 @@ class HomeFragment : Fragment() {
         binding.categoryChip.text = currentCategory ?: "카테고리"
     }
 
-
     // 필터 초기화 함수
     private fun resetFilters() {
         currentType = null
@@ -159,6 +170,16 @@ class HomeFragment : Fragment() {
         // 전체 리스트 업데이트
         loadTransactionsFromDatabase {
             adapter.updateEvents(allTransactions)
+        }
+        updateCancelIconVisibility()
+    }
+
+    // cancelIcon 가시성 업데이트 함수
+    private fun updateCancelIconVisibility() {
+        cancelIcon.visibility = if (currentType == null && currentCategory == null && currentPeriod == null) {
+            View.GONE
+        } else {
+            View.VISIBLE
         }
     }
 
@@ -206,9 +227,8 @@ class HomeFragment : Fragment() {
             typeMatches && categoryMatches && periodMatches
         }
         adapter.updateEvents(filteredTransactions)
+        updateCancelIconVisibility()
     }
-
-
 
     // 수입/지출 필터
     private fun showPopupMenu1(view: View, chip: Chip) {
@@ -302,7 +322,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-
     private fun loadTransactionsFromDatabase(onComplete: (() -> Unit)? = null) {
         lifecycleScope.launch {
             try {
@@ -326,8 +345,6 @@ class HomeFragment : Fragment() {
             }
         }
     }
-
-
 
     // total, income, expenses 불러오기
     private fun updateTransactionViews() {
