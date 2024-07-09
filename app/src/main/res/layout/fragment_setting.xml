@@ -11,17 +11,14 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:paddingTop="22dp"
+        android:layout_height="50dp"
         android:layout_marginBottom="20dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pay Breeze"
-            android:textSize="20dp"
-            android:paddingStart="40dp"
-            android:textColor="#36BD3C"
-            android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/logoView"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+            />
     </LinearLayout>
 
     <View
