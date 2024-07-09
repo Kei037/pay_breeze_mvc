@@ -94,7 +94,7 @@
                                 android:gravity="center"
                                 android:text="0"
                                 android:textColor="@color/black"
-                                android:textSize="72dp"
+                                android:textSize="64dp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -171,13 +171,13 @@
                 android:layout_height="60dp"
                 android:layout_marginTop="80dp"
                 android:layout_gravity="bottom"
-                android:alpha="0">
+                android:alpha="1">
 
                 <View
                     android:id="@+id/firstView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/white"/>
+                    android:background="@color/customLightGreen"/>
 
 
                 <TextView
@@ -186,8 +186,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="28dp"
                     android:text="9000"
-                    android:textSize="32dp"
-                    android:textColor="@color/black"
+                    android:textSize="30dp"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -199,8 +199,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
                     android:text="₩"
-                    android:textSize="28dp"
-                    android:textColor="#8F8F8F"
+                    android:textSize="24dp"
+                    android:textColor="@color/customDarkGray"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/miniTotal"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -212,8 +212,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
                     android:text="4000"
-                    android:textSize="24dp"
-                    android:textColor="@color/black"
+                    android:textSize="22dp"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toRightOf="@+id/miniTotal"
@@ -227,8 +227,8 @@
                     android:layout_marginLeft="6dp"
                     android:layout_marginRight="8dp"
                     android:text="-13000"
-                    android:textSize="24dp"
-                    android:textColor="@color/black"
+                    android:textSize="22dp"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -262,17 +262,18 @@
                 <com.google.android.material.chip.Chip
                     android:id="@+id/filterChip"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
+                    android:layout_height="52dp"
                     android:layout_weight="0.1"
-
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginBottom="2dp"
                     app:chipBackgroundColor="@color/white"
-                    app:chipCornerRadius="6dp"
-                    app:chipIcon="@drawable/filter_icon"
+                    app:chipIcon="@drawable/filter_off"
                     app:chipIconSize="28dp"
                     app:chipIconVisible="true"
-                    app:iconStartPadding="8dp"
-                    app:textEndPadding="4dp"
-                    app:textStartPadding="0dp" />
+                    app:iconStartPadding="4dp"
+                    app:iconEndPadding="0dp"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="0dp"/>
 
                 <com.google.android.material.chip.Chip
                     android:id="@+id/cashChip"
@@ -282,7 +283,7 @@
                     android:layout_weight="0.2"
                     android:text="거래종류"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="@color/customGreen"
+                    app:chipBackgroundColor="@color/customPink"
                     app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/arrow_drop_down_icon"
                     app:closeIconEnabled="true"
@@ -296,7 +297,7 @@
                     android:layout_weight="0.3"
                     android:text="기간"
                     android:textColor="@color/white"
-                    app:chipBackgroundColor="@color/customGreen"
+                    app:chipBackgroundColor="@color/customPink"
                     app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/arrow_drop_down_icon"
                     app:closeIconEnabled="true"
@@ -310,7 +311,7 @@
                     android:text="카테고리"
                     android:textColor="@color/white"
                     android:layout_marginRight="24dp"
-                    app:chipBackgroundColor="@color/customGreen"
+                    app:chipBackgroundColor="@color/customPink"
                     app:chipCornerRadius="12dp"
                     app:closeIcon="@drawable/arrow_drop_down_icon"
                     app:closeIconEnabled="true"

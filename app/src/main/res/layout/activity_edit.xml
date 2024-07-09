@@ -119,7 +119,8 @@
                         app:chipEndPadding="14dp"
                         app:chipMinHeight="36dp"
                         android:text="수입"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp"
+                        app:chipBackgroundColor="@color/customIvory" />
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipExpense"
                         android:layout_width="wrap_content"
@@ -128,7 +129,8 @@
                         app:chipEndPadding="14dp"
                         app:chipMinHeight="36dp"
                         android:text="지출"
-                        android:textSize="16dp"/>
+                        android:textSize="16dp"
+                        app:chipBackgroundColor="@color/customIvory" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
         </LinearLayout>

@@ -3,12 +3,12 @@
     <item android:gravity="right">
         <shape>
             <size android:width="25dp"/>
-            <solid android:color="#D1C4E9"/>
+            <solid android:color="@color/customLightGreen"/>
         </shape>
     </item>
     <item>
         <shape>
-            <solid android:color="#6200EE"/>
+            <solid android:color="@color/customGreen"/>
             <corners android:radius="250dp"/>
         </shape>
     </item>

@@ -11,6 +11,10 @@
     <!-- custom color -->
     <color name="customBlue">#2D6EFF</color>
     <color name="gray">#AAAAAA</color>
-    <color name="customGreen">#BFD200</color>
+    <color name="customGreen">#9cc3b2</color>
+    <color name="customLightGreen">#cbe2d2</color>
+    <color name="customPink">#f6b68e</color>
+    <color name="customDarkGray">#9b9b9b</color>
+    <color name="customIvory">#fbf5e1</color>
 
 </resources>

@@ -169,24 +169,24 @@ class EditActivity : AppCompatActivity() {
         if (isIncome) {
             chipIncome.apply {
                 isChecked = true
-                setChipBackgroundColorResource(R.color.black)
+                setChipBackgroundColorResource(R.color.customGreen)
                 setTextColor(Color.WHITE)
             }
             chipExpense.apply {
                 isChecked = false
-                setChipBackgroundColorResource(R.color.gray)
+                setChipBackgroundColorResource(R.color.customIvory)
                 setTextColor(Color.BLACK)
             }
             isExpense = true
         } else { // 지출 선택시
             chipExpense.apply {
                 isChecked = true
-                setChipBackgroundColorResource(R.color.black)
+                setChipBackgroundColorResource(R.color.customGreen)
                 setTextColor(Color.WHITE)
             }
             chipIncome.apply {
                 isChecked = false
-                setChipBackgroundColorResource(R.color.gray)
+                setChipBackgroundColorResource(R.color.customIvory)
                 setTextColor(Color.BLACK)
             }
             isExpense = false
