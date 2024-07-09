@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -15,6 +14,7 @@ import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 import com.kei037.pay_breeze_mvc.databinding.ActivityEditBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -40,10 +40,8 @@ class EditActivity : AppCompatActivity() {
         binding = ActivityEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.hide()
-        }
+        // 액션바 숨기기
+        supportActionBar?.hide()
 
         // 뒤로가기 버튼
         binding.backBtn.setOnClickListener {
@@ -52,8 +50,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         // 상세화면에서 넘어온 값을 수정화면에 뿌려줌
-        val bundle = intent.extras
-        if (bundle != null) {
+        intent.extras?.let { bundle ->
             id = bundle.getString("id")
             title = bundle.getString("title")
             amount = bundle.getString("amount")
@@ -63,23 +60,20 @@ class EditActivity : AppCompatActivity() {
 
             binding.editTitle.setText(title)
             binding.editAmount.setText(amount)
-            binding.editDate.setText(transactionDate)
+            binding.editDate.text = transactionDate
             binding.editDescription.setText(description)
-            binding.editCategory.setText(categoryName)
+            binding.editCategory.text = categoryName
         }
 
-        // 언더라인
-        val finishBtn = binding.finishBtn
-        finishBtn.paintFlags = finishBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        // 언더라인 설정
+        binding.finishBtn.paintFlags = binding.finishBtn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         // datePicker 생성
         binding.editDateLinear.setOnClickListener {
             showDatePicker()
         }
 
-        /**
-         * 카테고리 변경화면으로 Intent
-         */
+        // 카테고리 변경화면으로 Intent
         binding.editCategory.setOnClickListener {
             val intent = Intent(this, EditCategoryActivity::class.java).apply {
                 putExtra("id", id)
@@ -89,45 +83,8 @@ class EditActivity : AppCompatActivity() {
         }
 
         // 수정된 값들을 저장
-        finishBtn.setOnClickListener {
-            val editTitle = binding.editTitle.text.toString()
-            val editAmountString = binding.editAmount.text.toString()
-
-            var editAmount = editAmountString.replace(",", "").toDouble()
-
-            if (isExpense == null) {
-                editAmount = editAmount
-            } else if (isExpense!! && editAmount < 0) {
-                editAmount = -editAmount
-            } else if (!isExpense!! && editAmount > 0) {
-                editAmount = -editAmount
-            }
-
-            val editDate = binding.editDate.text.toString()
-            val editDescription = binding.editDescription.text.toString()
-            val editCategory = binding.editCategory.text.toString()
-
-            // DB, DAO 가져옴
-            db = AppDatabase.getInstance(this)
-            val transDao = db!!.getTransactionDao()
-
-            lifecycleScope.launch(Dispatchers.IO) {
-                val updatedTransaction = TransactionEntity(id?.toLong(), editTitle, editAmount, editDate, editDescription, editCategory)
-                // 업데이트
-                transDao.updateTransaction(updatedTransaction)
-                // 업데이트된 가계부 가져옴
-                val editTrans = id?.let { it1 -> transDao.getTransactionsByID(it1.toLong()) }
-                Log.i("수정된 가계부 === ", editTrans.toString())
-                // 업데이트된 가계부를 이전 화면에 전달
-                val resultIntent = Intent().apply {
-                    putExtra("updatedTransaction", editTrans.toString())
-                }
-                setResult(RESULT_OK, resultIntent)
-                launch(Dispatchers.Main) {
-                    finish()
-                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-                }
-            }
+        binding.finishBtn.setOnClickListener {
+            saveTransaction()
         }
 
         // 수입 / 지출 버튼 클릭시 색상 변경 및 음수 변경
@@ -162,34 +119,60 @@ class EditActivity : AppCompatActivity() {
 
     // chip 선택시 색상변경
     private fun selectChip(isIncome: Boolean) {
-        val chipIncome = binding.chipIncome
-        val chipExpense = binding.chipExpense
+        binding.chipIncome.apply {
+            isChecked = isIncome
+            setChipBackgroundColorResource(if (isIncome) R.color.customGreen else R.color.customIvory)
+            setTextColor(if (isIncome) Color.WHITE else Color.BLACK)
+        }
 
-        // 수입 선택시
-        if (isIncome) {
-            chipIncome.apply {
-                isChecked = true
-                setChipBackgroundColorResource(R.color.customGreen)
-                setTextColor(Color.WHITE)
+        binding.chipExpense.apply {
+            isChecked = !isIncome
+            setChipBackgroundColorResource(if (!isIncome) R.color.customGreen else R.color.customIvory)
+            setTextColor(if (!isIncome) Color.WHITE else Color.BLACK)
+        }
+
+        isExpense = !isIncome
+    }
+
+    // 트랜잭션을 저장하는 함수
+    private fun saveTransaction() {
+        val editTitle = binding.editTitle.text.toString()
+        val editAmountString = binding.editAmount.text.toString()
+        var editAmount = editAmountString.replace(",", "").toDouble()
+
+        // 수입/지출 여부에 따른 금액 처리
+        if (isExpense == null) {
+            editAmount = editAmount
+        } else if (isExpense!! && editAmount > 0) {
+            editAmount = -editAmount
+        } else if (!isExpense!! && editAmount < 0) {
+            editAmount = -editAmount
+        }
+
+        val editDate = binding.editDate.text.toString()
+        val editDescription = binding.editDescription.text.toString()
+        val editCategory = binding.editCategory.text.toString()
+
+        // DB, DAO 가져옴
+        db = AppDatabase.getInstance(this)
+        val transDao = db!!.getTransactionDao()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            val updatedTransaction = TransactionEntity(id?.toLong(), editTitle, editAmount, editDate, editDescription, editCategory)
+            // 업데이트
+            transDao.updateTransaction(updatedTransaction)
+            // 업데이트된 가계부 가져옴
+            val editTrans = id?.let { it1 -> transDao.getTransactionsByID(it1.toLong()) }
+            Log.i("수정된 가계부 === ", editTrans.toString())
+            // 업데이트된 가계부를 이전 화면에 전달
+            val resultIntent = Intent().apply {
+                putExtra("updatedTransaction", editTrans.toString())
             }
-            chipExpense.apply {
-                isChecked = false
-                setChipBackgroundColorResource(R.color.customIvory)
-                setTextColor(Color.BLACK)
+            withContext(Dispatchers.Main) {
+                setResult(RESULT_OK, resultIntent)
+                finish()
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
             }
-            isExpense = true
-        } else { // 지출 선택시
-            chipExpense.apply {
-                isChecked = true
-                setChipBackgroundColorResource(R.color.customGreen)
-                setTextColor(Color.WHITE)
-            }
-            chipIncome.apply {
-                isChecked = false
-                setChipBackgroundColorResource(R.color.customIvory)
-                setTextColor(Color.BLACK)
-            }
-            isExpense = false
         }
     }
 

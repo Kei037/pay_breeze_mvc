@@ -49,7 +49,7 @@ class CategoryAdapter(
 
             holder.itemView.setOnClickListener {
                 val previousSelectedPosition = selectedPosition
-                selectedPosition = holder.adapterPosition
+                selectedPosition = holder.bindingAdapterPosition
 
                 // 이전 선택된 항목 갱신
                 if (previousSelectedPosition != RecyclerView.NO_POSITION) {
@@ -80,7 +80,7 @@ class CategoryAdapter(
         if (position != -1) {
             val previousPosition = selectedPosition
             selectedPosition = position
-            notifyItemChanged(previousPosition)
+            if (previousPosition != RecyclerView.NO_POSITION) notifyItemChanged(previousPosition)
             notifyItemChanged(selectedPosition)
         }
     }

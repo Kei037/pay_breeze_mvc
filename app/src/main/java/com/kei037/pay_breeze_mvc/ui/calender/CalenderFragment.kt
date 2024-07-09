@@ -10,22 +10,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.databinding.FragmentCalenderBinding
-import com.kei037.pay_breeze_mvc.ui.MiddleDateDecorator
-import com.kei037.pay_breeze_mvc.ui.SingleDateDecorator
-import com.kei037.pay_breeze_mvc.ui.StartEndDateDecorator
+import com.kei037.pay_breeze_mvc.ui.calender.dacorators.MiddleDateDecorator
+import com.kei037.pay_breeze_mvc.ui.calender.dacorators.SingleDateDecorator
+import com.kei037.pay_breeze_mvc.ui.calender.dacorators.StartEndDateDecorator
 import com.kei037.pay_breeze_mvc.ui.commons.commonsAdapter.EventAdapter
 import com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter.groupEventsByDate
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView
-import com.prolificinteractive.materialcalendarview.OnDateSelectedListener
-import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.lifecycle.lifecycleScope
 import org.threeten.bp.LocalDate
-import java.text.SimpleDateFormat
 import org.threeten.bp.ZoneId
+import java.text.SimpleDateFormat
 import java.util.Date
 
 class CalenderFragment : Fragment() {
@@ -55,76 +53,85 @@ class CalenderFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * View가 생성된 후 호출되어 초기화 작업을 수행
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         // DB 연결
         db = AppDatabase.getInstance(requireContext())
 
-        // 가계부 리스트 받아오기
-        adapter = EventAdapter(listOf(), requireContext())
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
-
-        // 캘린더 뷰 바인딩
-        calendarView = binding.calendarView
-
-        // MaterialCalendarView를 기간도 설정 가능하게 변경
-        calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_RANGE
-
-        // 단일 날짜 선택
-        calendarView.setOnDateChangedListener(OnDateSelectedListener { widget, date, selected ->
-            // 캘린더 색상 변경
-            rangeStart = date
-            rangeEnd = date
-            updateDayDecorator()
-
-            Log.i("선택 날짜 == ", date.toString())
-            Log.i("선택 == ", selected.toString())
-            Log.i("바뀐 날짜 == ", changeLocalDateToDate(date.date).toString())
-
-            // 리스트 업데이트
-            loadEventsForDate(changeLocalDateToDate(date.date))
-        })
-
-        // 기간 날짜 선택
-        calendarView.setOnRangeSelectedListener(OnRangeSelectedListener { widget, dates ->
-            // 캘린더 색상 변경
-            rangeStart = dates.first()
-            rangeEnd = dates.last()
-            updateRangeDecorator()
-
-            Log.i("날짜 == ", dates.toString())
-            // 리스트 업데이트
-            loadEventsForRange(changeLocalDateToDate(dates.first().date), changeLocalDateToDate(dates.last().date))
-        })
-
-        // 오늘 날짜 가져오기
-        val today = CalendarDay.today()
-
-        // 오늘 날짜 선택하기
-        calendarView.setDateSelected(today, true)
-        rangeStart = today
-        rangeEnd = today
-
-        // 초기화 시 오늘 날짜 이벤트 로드
-        loadEventsForDate(SimpleDateFormat("yyyy-MM-dd").format(Date()))
-        updateDayDecorator()
+        // UI 및 데이터 초기화
+        setupRecyclerView()
+        setupCalendarView()
+        selectTodayDate()
     }
 
     // 화면이 다시 활성화될 때 데이터를 새로 고침
     override fun onResume() {
         super.onResume()
-        // 화면이 다시 활성화될 때 데이터를 새로 고침
-        if (rangeStart != null && rangeEnd != null) {
-            if (rangeStart == rangeEnd) {
-                // 단일 날짜 선택
-                loadEventsForDate(changeLocalDateToDate(rangeStart!!.date))
-                updateDayDecorator()
-            } else {
-                // 기간 날짜 선택
-                loadEventsForRange(changeLocalDateToDate(rangeStart!!.date), changeLocalDateToDate(rangeEnd!!.date))
-                updateRangeDecorator()
+        refreshData()
+    }
+
+    /**
+     * RecyclerView를 설정하는 함수
+     */
+    private fun setupRecyclerView() {
+        adapter = EventAdapter(listOf(), requireContext())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
+    }
+
+    /**
+     * CalendarView를 설정하는 함수
+     */
+    private fun setupCalendarView() {
+        calendarView = binding.calendarView
+        calendarView.selectionMode = MaterialCalendarView.SELECTION_MODE_RANGE
+
+        // 단일 날짜 선택 리스너 설정
+        calendarView.setOnDateChangedListener { _, date, _ ->
+            rangeStart = date
+            rangeEnd = date
+            updateDayDecorator()
+            loadEventsForDate(changeLocalDateToDate(date.date))
+        }
+
+        // 날짜 범위 선택 리스너 설정
+        calendarView.setOnRangeSelectedListener { _, dates ->
+            rangeStart = dates.first()
+            rangeEnd = dates.last()
+            updateRangeDecorator()
+            loadEventsForRange(changeLocalDateToDate(dates.first().date), changeLocalDateToDate(dates.last().date))
+        }
+    }
+
+    /**
+     * 오늘 날짜를 선택하고 초기화하는 함수
+     */
+    private fun selectTodayDate() {
+        val today = CalendarDay.today()
+        calendarView.setDateSelected(today, true)
+        rangeStart = today
+        rangeEnd = today
+        loadEventsForDate(SimpleDateFormat("yyyy-MM-dd").format(Date()))
+        updateDayDecorator()
+    }
+
+    /**
+     * 화면 재활성화 시 데이터 새로 고침
+     */
+    private fun refreshData() {
+        rangeStart?.let { start ->
+            rangeEnd?.let { end ->
+                if (start == end) {
+                    loadEventsForDate(changeLocalDateToDate(start.date))
+                    updateDayDecorator()
+                } else {
+                    loadEventsForRange(changeLocalDateToDate(start.date), changeLocalDateToDate(end.date))
+                    updateRangeDecorator()
+                }
             }
         }
     }
@@ -135,20 +142,12 @@ class CalenderFragment : Fragment() {
      * @return String
      */
     private fun changeLocalDateToDate(localDate: LocalDate): String {
-        // LocalDate를 LocalDateTime으로 변환
         val localDateTime = localDate.atStartOfDay()
-        // LocalDateTime을 ZonedDateTime으로 변환
         val zonedDateTime = localDateTime.atZone(ZoneId.systemDefault())
-        // ZonedDateTime을 Instant로 변환
         val instant = zonedDateTime.toInstant()
-        // Instant를 Date로 변환
         val date = Date(instant.toEpochMilli())
-
-        // Date를 원하는 형식으로 변환하여 출력
         val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val formattedDate = dateFormat.format(date)
-
-        return formattedDate
+        return dateFormat.format(date)
     }
 
     /**
@@ -156,13 +155,15 @@ class CalenderFragment : Fragment() {
      * @param dateString 날짜
      */
     private fun loadEventsForDate(dateString: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val transactions = db?.getTransactionDao()?.getTransactionsByDate(dateString)
-            val groupedItems = transactions?.let { groupEventsByDate(it) }
-            withContext(Dispatchers.Main) {
-                if (groupedItems != null) {
-                    adapter.updateEvents(groupedItems)
+        lifecycleScope.launch {
+            try {
+                val transactions = withContext(Dispatchers.IO) {
+                    db?.getTransactionDao()?.getTransactionsByDate(dateString)
                 }
+                val groupedItems = transactions?.let { groupEventsByDate(it) }
+                groupedItems?.let { adapter.updateEvents(it) }
+            } catch (e: Exception) {
+                Log.e("Error loading events", e.message.toString())
             }
         }
     }
@@ -173,14 +174,15 @@ class CalenderFragment : Fragment() {
      * @param endDate 끝 날짜
      */
     private fun loadEventsForRange(startDate: String, endDate: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val transactions =
-                db?.getTransactionDao()?.getTransactionsByDateRange(startDate, endDate)
-            val groupedItems = transactions?.let { groupEventsByDate(it) }
-            withContext(Dispatchers.Main) {
-                if (groupedItems != null) {
-                    adapter.updateEvents(groupedItems)
+        lifecycleScope.launch {
+            try {
+                val transactions = withContext(Dispatchers.IO) {
+                    db?.getTransactionDao()?.getTransactionsByDateRange(startDate, endDate)
                 }
+                val groupedItems = transactions?.let { groupEventsByDate(it) }
+                groupedItems?.let { adapter.updateEvents(it) }
+            } catch (e: Exception) {
+                Log.e("Error loading events", e.message.toString())
             }
         }
     }
@@ -191,10 +193,7 @@ class CalenderFragment : Fragment() {
     private fun updateDayDecorator() {
         calendarView.removeDecorators()
         rangeStart?.let {
-            calendarView.addDecorator(
-                SingleDateDecorator(it, requireContext(),
-                    R.drawable.selection_background
-                ))
+            calendarView.addDecorator(SingleDateDecorator(it, requireContext(), R.drawable.selection_background))
         }
     }
 
@@ -204,17 +203,12 @@ class CalenderFragment : Fragment() {
     private fun updateRangeDecorator() {
         calendarView.removeDecorators()
         rangeStart?.let {
-            calendarView.addDecorator(StartEndDateDecorator(it, requireContext(),
-                R.drawable.start_date_background
-            ))
+            calendarView.addDecorator(StartEndDateDecorator(it, requireContext(), R.drawable.start_date_background))
         }
         rangeEnd?.let {
-            calendarView.addDecorator(StartEndDateDecorator(it, requireContext(),
-                R.drawable.end_date_background
-            ))
+            calendarView.addDecorator(StartEndDateDecorator(it, requireContext(), R.drawable.end_date_background))
         }
-        calendarView.addDecorator(MiddleDateDecorator(rangeStart, rangeEnd, requireContext(),
-            R.drawable.middle_date_background))
+        calendarView.addDecorator(MiddleDateDecorator(rangeStart, rangeEnd, requireContext(), R.drawable.middle_date_background))
     }
 
     /**
@@ -224,5 +218,4 @@ class CalenderFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

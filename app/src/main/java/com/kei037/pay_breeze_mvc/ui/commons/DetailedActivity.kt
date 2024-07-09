@@ -5,16 +5,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.kei037.pay_breeze_mvc.databinding.ActivityDetailedBinding
-import android.graphics.Paint
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import com.kei037.pay_breeze_mvc.R
 import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.withContext
 
 class DetailedActivity : AppCompatActivity() {
@@ -27,10 +25,8 @@ class DetailedActivity : AppCompatActivity() {
         binding = ActivityDetailedBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val actionBar: ActionBar? = supportActionBar
-        if (actionBar != null) {
-            actionBar.hide()
-        }
+        // 액션바 숨기기
+        supportActionBar?.hide()
 
         // 데이터베이스 인스턴스 초기화
         db = AppDatabase.getInstance(this)
@@ -47,11 +43,8 @@ class DetailedActivity : AppCompatActivity() {
             }
         }
 
-        // 뒤로가기 버튼
-        binding.backBtn.setOnClickListener {
-            finish()
-            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
-        }
+        // 리스너 설정 함수 호출
+        setupListeners()
 
         // 전달된 이벤트 세부 정보 받기
         val transactionEntityString = intent.getStringExtra("EVENT_DETAIL")
@@ -61,10 +54,20 @@ class DetailedActivity : AppCompatActivity() {
         transactionEntityString?.let {
             updateUIWithTransactionString(it)
         }
+    }
+
+    /**
+     * 버튼 및 리스너 설정
+     */
+    private fun setupListeners() {
+        // 뒤로가기 버튼 설정
+        binding.backBtn.setOnClickListener {
+            finish()
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        }
 
         // editBtn 클릭 리스너 추가
-        val editBtn = binding.editBtn
-        editBtn.setOnClickListener {
+        binding.editBtn.setOnClickListener {
             // EditActivity로 이동하는 Intent 생성
             val intent = Intent(this, EditActivity::class.java).apply {
                 putExtra("id", binding.titleText.tag as? String)
@@ -79,14 +82,15 @@ class DetailedActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left)
         }
 
-        // 삭제버튼 클릭
-        val deleteBtn = binding.deleteBtn
-        deleteBtn.setOnClickListener {
+        // 삭제버튼 클릭 리스너 추가
+        binding.deleteBtn.setOnClickListener {
             showDeleteConfirmationDialog()
         }
     }
 
-    // 삭제버튼 클릭시 확인 Dialog창 띄움
+    /**
+     * 삭제버튼 클릭시 확인 Dialog창 띄움
+     */
     private fun showDeleteConfirmationDialog() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle("삭제 확인")
@@ -105,17 +109,28 @@ class DetailedActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    // 삭제 후 이전 화면으로 나가기
+    /**
+     * 삭제 후 이전 화면으로 나가기
+     * @param transactionId 삭제할 트랜잭션의 ID
+     */
     private fun deleteTransaction(transactionId: String) {
-        GlobalScope.launch(Dispatchers.IO) {
-            db.getTransactionDao().deleteTransactionById(transactionId.toLong())
-            withContext(Dispatchers.Main) {
-                finish()
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                db.getTransactionDao().deleteTransactionById(transactionId.toLong())
+                withContext(Dispatchers.Main) {
+                    finish()
+                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+                }
+            } catch (e: Exception) {
+                Log.e("삭제 오류", e.message.toString())
             }
         }
     }
 
+    /**
+     * 전달된 문자열로 UI를 업데이트
+     * @param transactionEntityString 트랜잭션 정보를 담은 문자열
+     */
     private fun updateUIWithTransactionString(transactionEntityString: String) {
         // 전달된 문자열을 클리닝하고 파싱하여 각 필드 추출
         val cleanedString = transactionEntityString.removePrefix("TransactionEntity(").removeSuffix(")")
@@ -141,6 +156,9 @@ class DetailedActivity : AppCompatActivity() {
         binding.categoryText.text = categoryName
     }
 
+    /**
+     * 액티비티 종료
+     */
     override fun finish() {
         super.finish()
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
