@@ -3,7 +3,6 @@ package com.kei037.pay_breeze_mvc.ui.calender.dacorators
 import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.core.content.ContextCompat
-import com.kei037.pay_breeze_mvc.R
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.DayViewDecorator
 import com.prolificinteractive.materialcalendarview.DayViewFacade

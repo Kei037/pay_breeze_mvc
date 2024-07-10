@@ -145,8 +145,10 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         binding.chipGroupCategory.setOnCheckedStateChangeListener { group, checkedIds ->
             // 모든 Chip 아이콘 비활성화
             group.children.forEach { chip ->
-                (chip as Chip).chipIcon = null
-                chip.isChipIconVisible = false
+                if (chip is Chip) {
+                    chip.chipIcon = null
+                    chip.isChipIconVisible = false
+                }
             }
             // 선택된 Chip 이 있을 경우, 해당 Chip 의 아이콘 활성화
             if (checkedIds.isNotEmpty()) {

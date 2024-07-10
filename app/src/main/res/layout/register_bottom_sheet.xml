@@ -152,26 +152,6 @@
                 android:layout_marginEnd="10dp"
                 app:singleSelection="true">
 
-                <!-- Category Chips -->
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chip_food"
-                    style="@style/Widget.MaterialComponents.Chip.Choice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Food"
-                    android:textSize="14sp"
-                    app:chipBackgroundColor="#F8F8F8"
-                    app:chipCornerRadius="16dp"
-                    app:chipIcon="@drawable/checked_chip_icon"
-                    app:chipIconVisible="false"
-                    app:chipMinHeight="32dp"
-                    app:chipStrokeColor="#E8E8E8"
-                    app:chipStrokeWidth="1dp"
-                    app:iconStartPadding="8dp"
-                    app:textEndPadding="8dp"
-                    app:textStartPadding="8dp"
-                    android:textColor="@android:color/black" />
-
 
             </com.google.android.material.chip.ChipGroup>
 

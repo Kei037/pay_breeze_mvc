@@ -278,7 +278,7 @@ class HomeFragment : Fragment() {
                     chip.text = menuItem.title
                     currentPeriod = "3개월"
                 }
-                R.id.date_2 -> {
+                R.id.date_4 -> {
                     chip.text = menuItem.title
                     currentPeriod = "6개월"
                 }

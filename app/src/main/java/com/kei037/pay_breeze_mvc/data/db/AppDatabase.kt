@@ -12,7 +12,6 @@ import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 
 @Database(entities = [TransactionEntity::class, CategoryEntity::class], version = 1)
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getTransactionDao(): TransactionDao
     abstract fun getCategoryDao(): CategoryDao
