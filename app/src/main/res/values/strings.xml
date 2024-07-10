@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">pay_breeze_mvc</string>
+    <string name="app_name">PayBreeze</string>
 
     <!-- nav title -->
     <string name="title_home">홈</string>
