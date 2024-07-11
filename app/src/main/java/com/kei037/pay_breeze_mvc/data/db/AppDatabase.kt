@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import com.kei037.pay_breeze_mvc.data.db.converter.Converters
 import com.kei037.pay_breeze_mvc.data.db.dao.CategoryDao
 import com.kei037.pay_breeze_mvc.data.db.dao.TransactionDao
 import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
