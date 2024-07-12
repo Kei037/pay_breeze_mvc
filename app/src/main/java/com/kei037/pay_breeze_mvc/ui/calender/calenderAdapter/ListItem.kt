@@ -2,6 +2,9 @@ package com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter
 
 import android.util.Log
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 // 날짜를 나타내는 데이터 클래스
 data class DateItem(val date: String) : ListItem {
@@ -27,14 +30,26 @@ fun groupEventsByDate(transactions: List<TransactionEntity>): List<ListItem> {
     // 트랜잭션을 날짜별로 그룹화
     val groupedByDate = transactions.groupBy { it.transactionDate }
 
-    // 그룹화된 각 날짜별로 DateItem과 EventItem 추가
+    // 그룹화된 각 날짜별로 DateItem과 EventItem 추가  ex) date = 2023-01-01
     for ((date, events) in groupedByDate) {
-        Log.i("날짜 테스트 ==== ", date)
-        date.replace("-", "2023년 07월 10일")
-        grouped.add(DateItem(date))
+        val formattedDate = formatDateString(date)
+
+        Log.i("날짜 테스트 ==== ", formattedDate)
+        grouped.add(DateItem(formattedDate))
         events.forEach { grouped.add(EventItem(it)) }
     }
 
     // 최종 그룹화된 리스트 반환
     return grouped
+}
+
+fun formatDateString(dateString: String): String {
+    // 날짜 문자열을 LocalDate로 파싱
+    val date = LocalDate.parse(dateString)
+
+    // 원하는 출력 형식 정의
+    val formatter = DateTimeFormatter.ofPattern("M월 d일", Locale.KOREAN)
+
+    // LocalDate를 원하는 형식의 문자열로 변환
+    return date.format(formatter)
 }

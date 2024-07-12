@@ -76,7 +76,6 @@ class AdditionFragment : Fragment() {
                 Toast.makeText(context, "추가됨: ${addition.title}", Toast.LENGTH_SHORT).show()
                 Log.d("AdditionFragment", "Added to temp list: $addition")
                 updateFinishButtonVisibility()
-                binding.emptyTextView.visibility = View.INVISIBLE
             }
             bottomSheetFragment.show(parentFragmentManager, "register_bottom_sheet")
         }
@@ -98,7 +97,7 @@ class AdditionFragment : Fragment() {
                 activity?.runOnUiThread {
                     additionAdapter.submitList(tempTransactionList.toList())
                     Toast.makeText(context, "모든 거래 저장 완료", Toast.LENGTH_SHORT).show()
-                    binding.btnFinish.isVisible = false
+                    updateFinishButtonVisibility()
                 }
             } catch (e: Exception) {
                 Log.e("AdditionFragment", "Error saving transactions", e)
@@ -106,12 +105,14 @@ class AdditionFragment : Fragment() {
         }.start()
     }
 
+
     /**
      * 임시 트랜잭션 리스트를 비움
      */
     private fun clearTempTranscationList() {
         tempTransactionList.clear()
         additionAdapter.submitList(tempTransactionList.toList())
+        updateFinishButtonVisibility()
     }
 
     /**
@@ -136,8 +137,12 @@ class AdditionFragment : Fragment() {
      * 완료 버튼 표시 여부를 업데이트
      */
     private fun updateFinishButtonVisibility() {
-        binding.btnFinish.isVisible = tempTransactionList.isNotEmpty() || additionAdapter.itemCount > 0
+        val isListEmpty = tempTransactionList.isEmpty()
+        binding.btnFinish.isVisible = !isListEmpty
+        binding.emptyTextView.isVisible = isListEmpty
     }
+
+
 
     /**
      * view 가 파괴될 때 호출
