@@ -20,7 +20,7 @@ class SettingFragment : Fragment() {
     private var dX = 0f
     private var dY = 0f
     private var lastAction = 0
-    private val developerEmail = "juneway6230@gamilc.com"
+    private val developerEmail = "juneway6230@gamil.com"
     private val appVersion = "v 0.1"
 
     /**

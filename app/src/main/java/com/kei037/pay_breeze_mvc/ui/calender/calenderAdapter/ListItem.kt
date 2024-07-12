@@ -1,5 +1,6 @@
 package com.kei037.pay_breeze_mvc.ui.calender.calenderAdapter
 
+import android.util.Log
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 
 // 날짜를 나타내는 데이터 클래스
@@ -28,6 +29,8 @@ fun groupEventsByDate(transactions: List<TransactionEntity>): List<ListItem> {
 
     // 그룹화된 각 날짜별로 DateItem과 EventItem 추가
     for ((date, events) in groupedByDate) {
+        Log.i("날짜 테스트 ==== ", date)
+        date.replace("-", "2023년 07월 10일")
         grouped.add(DateItem(date))
         events.forEach { grouped.add(EventItem(it)) }
     }

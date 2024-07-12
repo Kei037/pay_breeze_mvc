@@ -3,6 +3,7 @@ package com.kei037.pay_breeze_mvc.ui.setting
 import android.app.AlertDialog
 import android.os.Bundle
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,6 +24,8 @@ class CustomCategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCustomCategoryBinding.inflate(layoutInflater) // 뷰 바인딩 초기화
         setContentView(binding.root) // 뷰 설정
+        // 액션바 숨기기
+        supportActionBar?.hide()
 
         db = AppDatabase.getInstance(this) // 데이터베이스 인스턴스 가져오기
 
@@ -68,7 +71,12 @@ class CustomCategoryActivity : AppCompatActivity() {
             .setPositiveButton("추가") { _, _ ->
                 val categoryName = dialogView.findViewById<EditText>(R.id.categoryNameInput).text.toString() // 입력된 카테고리 이름 가져오기
                 if (categoryName.isNotBlank()) {
-                    addCategory(categoryName) // 카테고리 추가 함수 호출
+                    if (isCheck(categoryName)) {
+                        addCategory(categoryName)
+                    }
+                    else {
+                        Toast.makeText(applicationContext, "중복된 카테고리가 존재합니다.", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             .setNegativeButton("취소", null) // 취소 버튼 설정
@@ -87,4 +95,18 @@ class CustomCategoryActivity : AppCompatActivity() {
             }
         }
     }
+    private fun isCheck(categoryName: String): Boolean {
+        var flag = false
+        val categoryDao = db!!.getCategoryDao()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (categoryDao.getOneCategoryByName(categoryName) == null) {
+                flag = true
+            } else {
+                flag = false
+            }
+        }
+        return flag
+    }
+
 }

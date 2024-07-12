@@ -13,6 +13,7 @@ import android.widget.FrameLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.children
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -20,10 +21,14 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipDrawable
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.kei037.pay_breeze_mvc.R
+import com.kei037.pay_breeze_mvc.data.db.AppDatabase
 import com.kei037.pay_breeze_mvc.data.db.entity.CategoryEntity
 import com.kei037.pay_breeze_mvc.data.db.entity.TransactionEntity
 import com.kei037.pay_breeze_mvc.data.repository.CategoryRepository
 import com.kei037.pay_breeze_mvc.databinding.RegisterBottomSheetBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -189,13 +194,18 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
                 addEditableChip()
                 createNewChip.text = "confirm"
             } else {
-                val lastChip =
-                    binding.chipGroupCategory.getChildAt(binding.chipGroupCategory.childCount - 2)
+                val lastChip = binding.chipGroupCategory.getChildAt(binding.chipGroupCategory.childCount - 2)
                 if (lastChip is CustomChip) {
-                    saveNewCategory(lastChip)
+                    val categoryName = lastChip.getText()
+                    lifecycleScope.launch {
+                        if (isCheck(categoryName)) {
+                            saveNewCategory(lastChip)
+                        } else {
+                            Toast.makeText(context, "중복된 카테고리가 존재합니다.", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 } else {
-                    Toast.makeText(context, "Failed to create new category", Toast.LENGTH_SHORT)
-                        .show()
+                    Toast.makeText(context, "Failed to create new category", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -218,7 +228,13 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         val chipGroup = binding.chipGroupCategory
         val customChip = CustomChip(context)
         customChip.setOnDoneListener {
-            saveNewCategory(customChip)
+            lifecycleScope.launch {
+                if (isCheck(customChip.getText())) {
+                    saveNewCategory(customChip)
+                } else {
+                    Toast.makeText(context, "Category already exists", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
         chipGroup.addView(customChip, chipGroup.childCount - 1)
         customChip.focusEditText()
@@ -226,6 +242,17 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         isCreatingNewCategory = true
         binding.categoryCancel.visibility = View.VISIBLE
         Log.d("BottomSheet", "Editable chip added")
+    }
+
+    /**
+     * 카테고리 이름이 중복되지 않는지 체크
+     */
+    private suspend fun isCheck(categoryName: String): Boolean {
+        return withContext(Dispatchers.IO) {
+            val db = AppDatabase.getInstance(requireContext())
+            val categoryDao = db.getCategoryDao()
+            categoryDao.getOneCategoryByName(categoryName) == null
+        }
     }
 
     /**
@@ -341,23 +368,23 @@ class RegisterBottomSheetFragment : BottomSheetDialogFragment() {
         if (isIncome) {
             incomeChip.apply {
                 isChecked = true
-                setChipBackgroundColorResource(R.color.black)
+                setChipBackgroundColorResource(R.color.customGreen)
                 setTextColor(Color.WHITE)
             }
             expenseChip.apply {
                 isChecked = false
-                setChipBackgroundColorResource(R.color.white)
+                setChipBackgroundColorResource(R.color.customIvory)
                 setTextColor(Color.BLACK)
             }
         } else {
             expenseChip.apply {
                 isChecked = true
-                setChipBackgroundColorResource(R.color.black)
+                setChipBackgroundColorResource(R.color.customGreen)
                 setTextColor(Color.WHITE)
             }
             incomeChip.apply {
                 isChecked = false
-                setChipBackgroundColorResource(R.color.white)
+                setChipBackgroundColorResource(R.color.customIvory)
                 setTextColor(Color.BLACK)
             }
         }

@@ -63,7 +63,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Title"
+            android:text="제목"
             android:textSize="24dp"
             android:textColor="#306AFF"
             android:layout_marginBottom="6dp"/>
@@ -88,7 +88,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Amount"
+            android:text="금액"
             android:textSize="24dp"
             android:textColor="#306AFF"
             android:layout_marginBottom="6dp"/>
@@ -124,7 +124,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Date"
+            android:text="날짜"
             android:textSize="24dp"
             android:textColor="#306AFF"
             android:layout_marginBottom="6dp"/>
@@ -149,7 +149,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Category"
+            android:text="카테고리"
             android:textSize="24dp"
             android:textColor="#306AFF"
             android:layout_marginBottom="6dp"/>
@@ -174,7 +174,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Description"
+            android:text="설명"
             android:textSize="24dp"
             android:textColor="#306AFF"
             android:layout_marginBottom="6dp"/>

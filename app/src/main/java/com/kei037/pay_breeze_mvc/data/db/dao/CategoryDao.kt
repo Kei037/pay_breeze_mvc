@@ -23,4 +23,7 @@ interface CategoryDao {
 
     @Query("SELECT * FROM CategoryEntity WHERE is_public = :isPublic")
     fun getCategoriesByPublicStatus(isPublic: Boolean): List<CategoryEntity>
+
+    @Query("SELECT * FROM CategoryEntity WHERE name = :name")
+    fun getOneCategoryByName(name: String?): CategoryEntity?
 }

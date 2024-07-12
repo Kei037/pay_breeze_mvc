@@ -93,11 +93,30 @@ class EditCategoryActivity : AppCompatActivity() {
             .setView(dialogView)
             .setPositiveButton("추가") { _, _ ->
                 val categoryName = dialogView.findViewById<EditText>(R.id.categoryNameInput).text.toString()
-                addCategory(categoryName)
+                if (isCheck(categoryName)) {
+                    addCategory(categoryName)
+                }
+                else {
+                    Toast.makeText(applicationContext, "중복된 카테고리가 존재합니다.", Toast.LENGTH_SHORT).show()
+                }
             }
             .setNegativeButton("취소", null)
             .create()
         dialog.show()
+    }
+
+    private fun isCheck(categoryName: String): Boolean {
+        var flag = false
+        val categoryDao = db!!.getCategoryDao()
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (categoryDao.getOneCategoryByName(categoryName) == null) {
+                flag = true
+            } else {
+                flag = false
+            }
+        }
+        return flag
     }
 
     private fun addCategory(categoryName: String) {

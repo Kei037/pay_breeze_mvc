@@ -53,9 +53,27 @@
                         android:layout_width="150dp"
                         android:layout_height="50dp"
                         android:src="@drawable/logo"
-                        android:layout_marginTop="2dp"/>
+                        android:layout_marginTop="3dp"/>
 
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <ImageView
+                        android:id="@+id/goSearchBtn"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:padding="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginTop="4dp"
+                        android:src="@drawable/search_icon"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true"/>
                 </LinearLayout>
+
+
                 <!-- ScrollView -->
                 <ScrollView
                     android:id="@+id/scrollView"
@@ -79,8 +97,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="20dp"
                             android:gravity="center"
-                            android:text="Analysis Of Today!"
-                            android:textColor="@color/black" />
+                            android:text="오늘은 총 얼마를 사용하였을까요?"
+                            android:textSize="14dp"
+                            android:textColor="@color/gray" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -123,7 +142,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Income"
+                                    android:text="수입"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -148,7 +167,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center"
-                                    android:text="Expenses"
+                                    android:text="지출"
                                     android:textColor="@color/black" />
 
                                 <TextView

@@ -22,6 +22,8 @@ class HistoricalTransActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHistoricalTransBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // 액션바 숨기기
+        supportActionBar?.hide()
 
         binding.backBtn.setOnClickListener { finish() }
 

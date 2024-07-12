@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Title"
+                android:text="제목"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:drawablePadding="8dp"
@@ -54,7 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Amount"
+                android:text="금액"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:drawablePadding="8dp"
@@ -87,13 +87,21 @@
                         android:id="@+id/chip_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Income" />
+                        android:text="수입"
+                        app:chipStartPadding="14dp"
+                        app:chipEndPadding="14dp"
+                        app:chipMinHeight="36dp"
+                        app:chipBackgroundColor="@color/customIvory"/>
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chip_expense"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expense" />
+                        android:text="지출"
+                        app:chipStartPadding="14dp"
+                        app:chipEndPadding="14dp"
+                        app:chipMinHeight="36dp"
+                        app:chipBackgroundColor="@color/customIvory"/>
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
@@ -102,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Date"
+                android:text="날짜"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:drawablePadding="8dp"
@@ -126,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Category"
+                android:text="카테고리"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"
                 android:drawablePadding="8dp"
@@ -140,7 +148,7 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginEnd="16dp"
-                android:text="edit"
+                android:text="수정"
                 android:layout_gravity="end"
                 android:onClick="onEditClick" />
 
@@ -166,7 +174,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:breakStrategy="high_quality"
-                android:text="Create New"
+                android:text="카테고리 추가"
                 android:textSize="14sp"
                 app:chipBackgroundColor="#F8F8F8"
                 app:chipCornerRadius="16dp"
@@ -194,7 +202,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:text="Description"
+                android:text="설명"
                 android:layout_marginTop="20dp"
                 android:textSize="18sp"
                 android:textColor="@android:color/black"

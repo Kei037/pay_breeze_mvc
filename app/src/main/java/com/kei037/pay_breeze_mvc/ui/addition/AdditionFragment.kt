@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -75,6 +76,7 @@ class AdditionFragment : Fragment() {
                 Toast.makeText(context, "추가됨: ${addition.title}", Toast.LENGTH_SHORT).show()
                 Log.d("AdditionFragment", "Added to temp list: $addition")
                 updateFinishButtonVisibility()
+                binding.emptyTextView.visibility = View.INVISIBLE
             }
             bottomSheetFragment.show(parentFragmentManager, "register_bottom_sheet")
         }
