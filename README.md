@@ -1,4 +1,4 @@
-# :paperclip: Transaction Project (가계부 어플)
+# :paperclip: Transaction Project (가계부 어플)
 > 지출과 수입을 쉽게 관리할 수 있도록 하는 가계부 어플리케이션입니다.
 
 ![메인 화면]
