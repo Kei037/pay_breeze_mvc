@@ -10,12 +10,13 @@
   - [사용 기술](#3-사용-기술)   
      - [백엔드](#3-1-백엔드)
      - [프론트엔드](#3-2-프론트엔드)
-  - [실행 화면](#4-실행-화면)   
+     - [협업도구](#3-3-협업도구)
+  - [실행 화면](#4-실행-화면)
 
 
 - [구조 및 설계](#구조-및-설계)
   - [패키지 구조](#1-패키지-구조)
-  - [DB 설계](#2. DB 설계)
+  - [DB 설계](#2-DB-설계)
   - [API 설계](#3-api-설계)
 
 - [개발 내용](#개발-내용)
@@ -62,6 +63,12 @@ Pay Breeze
 - Material 1.12.0
 - Material Calendarview 2.0.1
 
+#### 3-3 협업도구
+- GitHub
+- Slack
+- Notion
+- Figma
+
 
 ### 4. 실행 화면
   <details>
@@ -78,82 +85,7 @@ Pay Breeze
   
   가계부 등록기능, 나만의 카테고리를 추가/삭제가 가능하다.
      
-  **3. 게시글 상세보기**   
-  ![image](https://user-images.githubusercontent.com/59757689/156975794-9d7ef3fd-7e03-4a24-99de-d3f7a99c8167.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156975849-f3e02f34-47ed-4b7a-92f5-83ee66bed2bb.png)   
-  본인이 작성한 글만 수정 및 삭제가 가능하다.   
      
-   **4. 게시글 수정 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156975898-2f17bc37-df52-418e-8a84-dc17cec37070.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156975948-954960c8-987e-4364-a036-3c58cb66bbdd.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156975965-da3681c1-1a0d-4159-865a-b5c202b1f7ee.png)   
-  제목과 내용만 수정할 수 있게 하고, Confirm으로 수정 여부를 확인 후 상세보기 화면으로 redirect 한다.   
-  목록 버튼을 누를 시 상세보기 화면으로 돌아간다.   
-  
-  **5. 게시글 삭제 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976055-d6e8f6bd-9bda-4fc8-bb5f-3ea60d9f2f5d.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156976074-c27f90c8-c8e0-45b9-9d04-e3541a14b8c2.png)   
-  Confirm으로 삭제할지 확인하고, 삭제 후 전체 목록 리스트 화면으로 redirect 한다.   
-  
-  **6. 게시글 검색 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976190-1dac1678-3cf4-4d21-9f3b-d5228b7d50ef.png)   
-  검색 키워드에 포함된 글을 모두 보여준다.   
-     
-  **6-1. 게시글 검색 후 페이징 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976258-c4b28ef3-fd6e-4ebe-834c-d5c6bce4c02c.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156976314-c6733cb8-7aac-4502-88d4-02730f88021b.png)   
-  검색된 게시글이 많을 경우 다음과 같이 페이징 처리되어 조회할 수 있다.   
-     
-  </details>
-  <br/>   
-  
-  <details>
-    <summary>회원 관련</summary>   
-     
-  **1. 회원가입 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976413-78b9e0e9-2ab1-47e0-a0cd-699ebacddb79.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156976436-fafec47f-3df3-4356-83d5-eb80e1aa2276.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156976548-3a440a6c-49d0-4e5c-9eb3-d5e3524c11b6.png)   
-  회원가입 시 유효성 검사 및 중복확인을 진행하며 완료시 회원 정보를 저장하고 로그인 화면으로 이동한다.   
-     
-  **2. 로그인 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976619-6988837d-0dfe-4600-a63c-2e287db9c88e.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156976909-51b0d06c-502f-4e42-b0dd-516834e43efe.png)   
-  로그인 실패시 어떤 이유로 실패 했는지 메시지가 나오고, 로그인에 성공하면 게시글 전체 리스트 화면으로 redirect 한다.   
-     
-  **2-1. OAuth 2.0 소셜 로그인 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156976991-c517d254-b4b8-4a34-99fd-2684856f2a2d.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156977007-7b44d157-f29c-4a43-9fd3-aa6b743a8fb8.png)   
-  구글과 네이버 로그인이 가능하다.   
-     
-  **3. 회원정보 수정 화면**   
-  ![image](https://user-images.githubusercontent.com/59757689/156977253-d1a4de93-da30-4adf-8634-dfe10d0635a8.png)   
-  닉네임과 비밀번호만 변경할 수 있고, 변경된 닉네임이 이미 사용중일 경우 alert으로 현재 사용 중임을 알려주고,   
-  완료시 게시글 전체 리스트 화면으로 redirect 한다.      
-           
-  </details>
-  <br/>   
-  
-  <details>
-    <summary>댓글 관련</summary>   
-       
-  **1. 댓글 작성 화면**   
-  미로그인 사용자 화면   
-  ![image](https://user-images.githubusercontent.com/59757689/156977476-37db357a-ac44-4b24-ad8c-a062d4fe99cf.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156977497-cc7fc2a7-e688-4733-b4c7-8aef4fba93e3.png)   
-  댓글은 로그인 한 사용자만 달 수 있으며, 댓글 작성시 현재 페이지를 reload 한다.   
-  
-  **2. 댓글 수정**   
-  ![image](https://user-images.githubusercontent.com/59757689/156977557-8a3dae77-9a8d-4fd3-824e-8ff22606609e.png)   
-  다른 사용자는 다른 사람의 댓글을 수정/삭제할 수 없다.   
-  ![image](https://user-images.githubusercontent.com/59757689/156977567-fd983777-5b04-4f57-a815-c89a59697377.png)   
-  수정은 댓글 작성자만이 할 수 있다. 수정 완료 후 현재 페이지를 reload 한다.   
-  
-  **3. 댓글 삭제**   
-  ![image](https://user-images.githubusercontent.com/59757689/156977655-8125a317-344e-4721-a836-46b36df3a3b5.png)   
-  ![image](https://user-images.githubusercontent.com/59757689/156977661-5008733b-2932-4bfc-be01-60a33a093dc9.png)   
-  삭제 또한 댓글 작성자만이 할 수 있다. 삭제 후 현재 페이지를 reload 한다.   
-           
   </details>
   <br/>   
  
@@ -241,38 +173,17 @@ Pay Breeze
 
 ![DB설계 및 구성](https://github.com/user-attachments/assets/90cff346-c1ab-472d-9997-9e99750ca404)
    
-<br/>
+<br/><br/><br/><br/><br/>
+
+
+======= 해당하지 않는 내용 =======
+
 
 ### 3. API 설계
 
-![게시글 관련 API 설계](https://user-images.githubusercontent.com/59757689/156749365-5e4cee67-1431-4e3a-9140-7b58b6e1fd53.PNG)    
-![회원 관련 API 설계 (2)](https://user-images.githubusercontent.com/59757689/148911411-0cfb65ee-5782-4f04-a7c9-7dcc84abfed8.PNG)   
-![댓글 관련 API 설계v2](https://github.com/hojunnnnn/board/assets/59757689/fa9032f0-3ce1-4ec4-9dbd-f420fb4e6152)  
-
 ## 개발 내용
 
-- <a href="https://dev-coco.tistory.com/111" target="_blank">게시판 프로젝트 명세서 정리</a>
-- <a href="https://dev-coco.tistory.com/113" target="_blank">게시판 조회수 기능 추가</a>
-- <a href="https://dev-coco.tistory.com/114" target="_blank">게시판 페이징 처리 구현</a>
-- <a href="https://dev-coco.tistory.com/115" target="_blank">게시판 검색처리 및 페이징 구현</a>
-- <a href="https://dev-coco.tistory.com/117" target="_blank">생성, 수정시간 LocalDateTime format 변경</a>
-- <a href="https://dev-coco.tistory.com/120" target="_blank">Security 회원가입 및 로그인 구현</a>
-- <a href="https://dev-coco.tistory.com/121" target="_blank">Security Mustache CSRF 적용 및 문제해결</a>
-- <a href="https://dev-coco.tistory.com/122" target="_blank">커스텀 어노테이션을 통해 중복코드 개선</a>
-- <a href="https://dev-coco.tistory.com/124" target="_blank">회원가입 Validation 유효성 검사</a>
-- <a href="https://dev-coco.tistory.com/125" target="_blank">회원가입 Validation 커스터마이징 중복 검사</a>
-- <a href="https://dev-coco.tistory.com/126" target="_blank">Security 로그인 실패시 메시지 출력하기</a>
-- <a href="https://dev-coco.tistory.com/127" target="_blank">Security 회원정보 수정(ajax)</a>
-- <a href="https://dev-coco.tistory.com/128" target="_blank">OAuth 2.0 구글 로그인 구현</a>
-- <a href="https://dev-coco.tistory.com/129" target="_blank">OAuth 2.0 네이버 로그인 구현</a>
-- <a href="https://dev-coco.tistory.com/130" target="_blank">JPA 연관관계 매핑으로 글 작성자만 수정, 삭제 가능하게 하기</a>
-- <a href="https://dev-coco.tistory.com/133" target="_blank">JPA 양방향 순환참조 문제 및 해결</a>
-- <a href="https://dev-coco.tistory.com/132" target="_blank">게시판 댓글 작성 및 조회 구현</a>
-- <a href="https://dev-coco.tistory.com/134" target="_blank">게시판 댓글 수정 및 삭제 구현</a>
-- <a href="https://dev-coco.tistory.com/136" target="_blank">게시판 댓글 작성자만 수정, 삭제 가능하게 하기</a>
-- <a href="https://dev-coco.tistory.com/138" target="_blank">[리팩토링]Dto Class를 Inner Class로 한번에 관리하기</a>
-
-## 마치며   
+## 마치며(수정해야함)
 ### 1. 프로젝트 보완사항   
 
 초기에 구상한 기능은 기본적인 CRUD 즉, 게시판에 올라오는 게시글을 대상으로 Create, Read, Update, Delete가 가능한 게시판이었습니다.   
@@ -309,7 +220,7 @@ mustache는 로직을 넣을 수 없어 그 과정에 데이터를 렌더링 하
 </details>  
 
 
-### 2. 후기   
+### 2. 후기(수정해야함)
 
 혼자 독학하며 처음 만들어본 프로젝트이기 때문에,   
 공부한 내용을 사용해보는 설렘만큼이나 부족한 부분에 대한 아쉬움도 많이 남았습니다.   
