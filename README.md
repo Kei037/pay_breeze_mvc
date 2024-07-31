@@ -1,7 +1,7 @@
 # :paperclip: Transaction Project (가계부 어플)
 > 지출과 수입을 쉽게 관리할 수 있도록 하는 가계부 어플리케이션입니다.
 
-![DB설계 및 구성](https://github.com/user-attachments/assets/90cff346-c1ab-472d-9997-9e99750ca404)
+<img width="544" alt="스크린샷 2024-07-31 오후 5 59 10" src="https://github.com/user-attachments/assets/63269f12-78b3-4e94-9bfc-6681c5c77c90">
 
 ## 목차
 - [들어가며](#들어가며)
@@ -65,16 +65,18 @@ Pay Breeze
 
 ### 4. 실행 화면
   <details>
-    <summary>게시글 관련</summary>   
+    <summary>주요 기능 화면</summary>   
        
     
-  **1. 게시글 전체 목록**   
-  ![image](https://user-images.githubusercontent.com/59757689/156975336-c37c9866-bba2-4c69-9a3f-230339a80d5a.png)   
-  전체 목록을 페이징 처리하여 조회할 수 있다.   
+  **1. 홈 화면**   
+  <img width="555" alt="스크린샷 2024-07-31 오후 6 39 46" src="https://github.com/user-attachments/assets/ee32ce6b-0c1b-441b-8f2a-d4b4d7649ded">
+  
+  수입/지출, 기간, 카테고리별 필터로 조회가 가능하다.
      
-  **2. 게시글 등록**   
-  ![image](https://user-images.githubusercontent.com/59757689/156975408-413151f1-3bd8-4788-bc8e-77a2ffbd6eea.png)   
-  로그인 한 사용자만 새로운 글을 작성할 수 있고, 작성 후 목록 화면으로 redirect한다.   
+  **2. 가계부 등록**   
+  <img width="515" alt="스크린샷 2024-07-31 오후 6 40 20" src="https://github.com/user-attachments/assets/fd3bf587-b66c-4b2c-acc6-f109f88976f6">
+  
+  가계부 등록기능, 나만의 카테고리를 추가/삭제가 가능하다.
      
   **3. 게시글 상세보기**   
   ![image](https://user-images.githubusercontent.com/59757689/156975794-9d7ef3fd-7e03-4a24-99de-d3f7a99c8167.png)   
