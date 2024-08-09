@@ -73,7 +73,9 @@ Pay Breeze
 ### 4. 실행 화면
   <details>
     <summary>주요 기능 화면</summary>   
-       
+
+  **0. 주요 실행 영상**
+  https://www.youtube.com/@juneway6230
     
   **1. 홈 화면**   
   <img width="555" alt="스크린샷 2024-07-31 오후 6 39 46" src="https://github.com/user-attachments/assets/ee32ce6b-0c1b-441b-8f2a-d4b4d7649ded">
@@ -84,8 +86,11 @@ Pay Breeze
   <img width="515" alt="스크린샷 2024-07-31 오후 6 40 20" src="https://github.com/user-attachments/assets/fd3bf587-b66c-4b2c-acc6-f109f88976f6">
   
   가계부 등록기능, 나만의 카테고리를 추가/삭제가 가능하다.
-     
-     
+
+  **3. 캘린더 화면**   
+  <img width="128" alt="스크린샷 2024-08-09 오후 3 37 27" src="https://github.com/user-attachments/assets/7d6b104e-f694-4586-87eb-38864b382f1c">
+
+  하루, 기간별로 달력을 선택하여 가계부 조회를 할 수 있다.
   </details>
   <br/>   
  
